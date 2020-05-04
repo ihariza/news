@@ -1,0 +1,23 @@
+apply from: 'gradle-scripts/config.gradle'
+apply from: 'gradle-scripts/dependencies.gradle'
+
+buildscript {
+  repositories {
+    jcenter()
+    google()
+  }
+  dependencies {
+    classpath 'com.android.tools.build:gradle:3.6.3'
+  }
+}
+
+allprojects {
+  repositories {
+    jcenter()
+    google()
+  }
+}
+
+task clean(type: Delete) {
+  delete rootProject.buildDir
+}

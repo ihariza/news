@@ -1,0 +1,122 @@
+apply plugin: 'com.android.application'
+
+android {
+  compileSdkVersion Android.compileSdkVersion
+
+  defaultConfig {
+    applicationId Android.applicationId
+    minSdkVersion Android.minSdkVersion
+    targetSdkVersion Android.targetSdkVersion
+    versionCode Android.versionCode
+    versionName Android.versionName
+    multiDexEnabled true
+    vectorDrawables.useSupportLibrary = true
+    buildConfigField 'String', 'NEWS_API', findProperty("NEWS_API_KEY") ?: ""
+  }
+
+  signingConfigs {
+    config {
+      def keystorePropertiesFile = rootProject.file("keystore/release-keystore.properties")
+      def keystoreProperties = new Properties()
+      keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+      keyAlias keystoreProperties['keyAlias']
+      keyPassword keystoreProperties['keyPassword']
+      storeFile file(keystoreProperties['storeFile'])
+      storePassword keystoreProperties['storePassword']
+    }
+  }
+
+  buildTypes {
+    debug {
+      applicationIdSuffix '.debug'
+      versionNameSuffix '-DEBUG'
+      testCoverageEnabled true
+    }
+    release {
+      minifyEnabled true
+      shrinkResources true
+      signingConfig signingConfigs.config
+      proguardFiles getDefaultProguardFile(
+              'proguard-android-optimize.txt'),
+              'proguard-rules.pro'
+    }
+  }
+
+  packagingOptions {
+    exclude 'META-INF/services/javax.annotation.processing.Processor'
+    exclude 'META-INF/LICENSE'
+    exclude 'META-INF/LICENSE.txt'
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+
+  lintOptions {
+    abortOnError false
+  }
+
+  viewBinding {
+    enabled = true
+  }
+
+  flavorDimensions("flavorDimen")
+  productFlavors {
+    create("dev") {
+      applicationIdSuffix = ".dev"
+      buildConfigField("String", "BASE_URL", '"https://api.currentsapi.services/v1/"')
+    }
+    create("pre") {
+      applicationIdSuffix = ".pre"
+      buildConfigField("String", "BASE_URL", '"https://api.currentsapi.services/v1/"')
+    }
+    create("pro") {
+      buildConfigField("String", "BASE_URL", '"https://api.currentsapi.services/v1/"')
+    }
+  }
+}
+
+dependencies {
+
+  implementation AndroidXdependencies.appCompat
+  implementation AndroidXdependencies.material
+  implementation AndroidXdependencies.annotation
+  implementation AndroidXdependencies.multidex
+  implementation AndroidXdependencies.constraintlayout
+
+  implementation DaggerDependencies.dagger
+  annotationProcessor DaggerDependencies.daggerCompiler
+  implementation DaggerDependencies.daggerAndroidSupport
+  annotationProcessor DaggerDependencies.daggerAndroidProcessor
+
+  implementation RxDependencies.rxJava
+  implementation RxDependencies.rxAndroid
+  implementation RxDependencies.rxBridge
+
+  implementation RetrofitDependencies.retrofit
+  implementation RetrofitDependencies.converterGson
+  implementation RetrofitDependencies.adapterRxjava2
+
+  implementation OkhttpDependencies.okhttp
+  implementation OkhttpDependencies.loggingInterceptor
+
+  annotationProcessor RoomDependencies.compiler
+  implementation RoomDependencies.runtime
+  implementation RoomDependencies.rxjava2
+
+  implementation Gson
+
+  implementation GlideDependencies.core
+  annotationProcessor GlideDependencies.compiler
+
+  implementation StethoDependencies.core
+  implementation StethoDependencies.okhttp
+
+  testImplementation TestingDependencies.junit
+  testImplementation TestingDependencies.mockito
+  testImplementation TestingDependencies.hamcrest
+
+}
+
