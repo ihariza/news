@@ -47,7 +47,7 @@ public class NewsPresenterTest {
 
     @Test
     public void showNewsWhenRetrieveNewsSuccessfully() {
-        given(getNewsUseCase.getNews(0)).willReturn(Single.just(FakeNewsLocalAPI.getFakeReportList()));
+        given(getNewsUseCase.getNews(1)).willReturn(Single.just(FakeNewsLocalAPI.getFakeReportList()));
 
         newsPresenter.start();
 
@@ -61,7 +61,7 @@ public class NewsPresenterTest {
 
     @Test
     public void showErrorWhenRetrieveNewsFails() {
-        given(getNewsUseCase.getNews(0)).willReturn(Single.error(new Throwable("Error getting news")));
+        given(getNewsUseCase.getNews(1)).willReturn(Single.error(new Throwable("Error getting news")));
 
         newsPresenter.start();
 
