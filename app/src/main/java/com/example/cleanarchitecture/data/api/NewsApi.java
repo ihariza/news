@@ -8,6 +8,8 @@ import retrofit2.http.Query;
 
 public interface NewsApi {
 
-    @GET("latest-news?language=es")
-    Single<NewsData> getLatestNews(@Query("apiKey") String apiKey);
+    @GET("latest-news")
+    Single<NewsData> getLatestNews(@Query("apiKey") String apiKey,
+                                   @Query("language") String language,
+                                   @Query("page_number") int pageNumber);
 }

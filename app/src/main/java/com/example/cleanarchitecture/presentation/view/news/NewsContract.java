@@ -24,4 +24,19 @@ public interface NewsContract {
     interface Presenter extends BasePresenterContract {
 
     }
+
+    interface ReportListener {
+
+        void onReportClicked(ReportDto report);
+    }
+
+    interface Pagination {
+
+        void loadPageNews();
+
+        boolean isLoading();
+
+        boolean isLastPage();
+    }
+
 }

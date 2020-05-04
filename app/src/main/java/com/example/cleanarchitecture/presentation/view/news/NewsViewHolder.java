@@ -4,25 +4,26 @@ import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.cleanarchitecture.databinding.NewRowBinding;
 import com.example.cleanarchitecture.presentation.model.ReportDto;
+import com.example.cleanarchitecture.presentation.view.base.BaseViewHolder;
 import com.example.cleanarchitecture.presentation.view.util.DateUtil;
 
-class NewsViewHolder extends RecyclerView.ViewHolder {
+class NewsViewHolder extends BaseViewHolder<ReportDto> {
 
-    private final NewsPresenter newsPresenter;
     private final NewRowBinding newsRowBinding;
+    private final NewsContract.ReportListener reportListener;
 
-    NewsViewHolder(@NonNull NewRowBinding binding, @NonNull NewsPresenter newsPresenter) {
+    NewsViewHolder(@NonNull NewRowBinding binding, @NonNull NewsContract.ReportListener reportListener) {
         super(binding.getRoot());
         this.newsRowBinding = binding;
-        this.newsPresenter = newsPresenter;
+        this.reportListener = reportListener;
     }
 
-    void render(ReportDto report) {
+    @Override
+    public void onBind(ReportDto report) {
         renderReportImage(report.getImage());
         renderReportTitle(report.getTitle());
         renderReportDescription(report.getDescription());
@@ -58,7 +59,7 @@ class NewsViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void onItemClick(final ReportDto report) {
-        itemView.setOnClickListener(v -> newsPresenter.onReportClicked(report));
+        itemView.setOnClickListener(v -> reportListener.onReportClicked(report));
     }
 
     private void getImage(String photo, ImageView photoImageView) {

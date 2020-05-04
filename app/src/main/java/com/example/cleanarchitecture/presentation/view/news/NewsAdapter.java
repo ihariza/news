@@ -6,15 +6,20 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cleanarchitecture.databinding.LoadingRowBinding;
 import com.example.cleanarchitecture.databinding.NewRowBinding;
 import com.example.cleanarchitecture.presentation.model.ReportDto;
+import com.example.cleanarchitecture.presentation.view.base.BaseViewHolder;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 
-public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class NewsAdapter extends RecyclerView.Adapter<BaseViewHolder<ReportDto>> {
+
+    private static final int VIEW_TYPE_LOADING = 0;
+    private static final int VIEW_TYPE_NORMAL = 1;
 
     private final NewsPresenter presenter;
     private final List<ReportDto> news;
@@ -24,16 +29,31 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         news = new ArrayList<>();
     }
 
-    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new NewsViewHolder(NewRowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false), presenter);
+    public int getItemViewType(int position) {
+        if (presenter.isLoading()) {
+            return position == news.size() - 1  ? VIEW_TYPE_LOADING : VIEW_TYPE_NORMAL;
+        } else {
+            return VIEW_TYPE_NORMAL;
+        }
+    }
+
+    @NonNull @Override
+    public BaseViewHolder<ReportDto> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == VIEW_TYPE_LOADING) {
+            return new LoadingViewHolder(
+                    LoadingRowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+        }
+        return new NewsViewHolder(
+                NewRowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false),
+                presenter);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        final NewsViewHolder newsViewHolder = (NewsViewHolder) holder;
-        newsViewHolder.render(news.get(position));
+    public void onBindViewHolder(@NonNull BaseViewHolder<ReportDto> holder, int position) {
+        ReportDto report = news.get(position);
+        if (report == null) return;
+        holder.onBind(news.get(position));
     }
 
     @Override
@@ -43,5 +63,16 @@ public class NewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     void addAll(Collection<ReportDto> collection) {
         news.addAll(collection);
+        notifyDataSetChanged();
+    }
+
+    void showLoading() {
+        news.add(null);
+        notifyItemInserted(news.size() - 1);
+    }
+
+    void hideLoading() {
+        news.remove(null);
+        notifyItemRemoved(news.size() - 1);
     }
 }

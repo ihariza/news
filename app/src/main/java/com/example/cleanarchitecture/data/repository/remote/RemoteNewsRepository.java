@@ -8,5 +8,5 @@ import io.reactivex.rxjava3.core.Single;
 
 public interface RemoteNewsRepository {
 
-    Single<List<ReportEntity>> getNews();
+    Single<List<ReportEntity>> getNews(int pageNumber);
 }

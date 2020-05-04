@@ -9,7 +9,7 @@ import io.reactivex.rxjava3.core.Single;
 
 public interface NewsRepository {
 
-    Single<List<Report>> getNews();
+    Single<List<Report>> getNews(int pageNumber);
 
     Single<Report> getReport(String id);
 

@@ -33,9 +33,9 @@ public class GetNewsUseCaseTest {
 
     @Test
     public void getReportListObservableFromRepository() {
-        getNewsUseCase.getNews();
+        getNewsUseCase.getNews(0);
 
-        verify(repository).getNews();
+        verify(repository).getNews(0);
         verifyNoMoreInteractions(repository);
     }
 

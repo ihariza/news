@@ -5,17 +5,21 @@ import com.example.cleanarchitecture.domain.usecase.GetNewsUseCase;
 import com.example.cleanarchitecture.presentation.model.ReportDto;
 import com.example.cleanarchitecture.presentation.model.mapper.ReportToReportDtoMapper;
 import com.example.cleanarchitecture.presentation.view.base.BasePresenter;
+import com.example.cleanarchitecture.presentation.view.util.Constants;
 
 import javax.inject.Inject;
 
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public class NewsPresenter extends BasePresenter<NewsContract.View>
-        implements NewsContract.Presenter {
+        implements NewsContract.Presenter, NewsContract.ReportListener, NewsContract.Pagination {
 
     private GetNewsUseCase getNewsUseCase;
     private ReportToReportDtoMapper reportToReportDtoMapper;
     private SchedulerProvider schedulerProvider;
+    private int pageNumber = 1;
+    private boolean isLoading;
+    private boolean isLastPage;
 
     @Inject
     public NewsPresenter(NewsContract.View view,
@@ -28,26 +32,55 @@ public class NewsPresenter extends BasePresenter<NewsContract.View>
         this.reportToReportDtoMapper = reportToReportDtoMapper;
     }
 
-    void onReportClicked(ReportDto report) {
+    @Override
+    public void start() {
+        loadPageNews();
+    }
+
+    @Override
+    public void onReportClicked(ReportDto report) {
         view.openReport(report.getId());
     }
 
     @Override
-    public void start() {
-        view.showLoading();
-        getNews();
-    }
-
-    private void getNews() {
-        Disposable disposable = getNewsUseCase.getNews()
+    public void loadPageNews() {
+        showLoading();
+        Disposable disposable = getNewsUseCase.getNews(pageNumber)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .map(reportToReportDtoMapper::map)
-                .doAfterTerminate(() -> view.hideLoading())
-                .subscribe(news ->
-                                view.showNews(news),
-                        throwable -> view.showError(throwable.getMessage()));
+                .doAfterTerminate(this::hideLoading)
+                .subscribe(news -> {
+                            pageNumber++;
+                            isLoading = false;
+                            view.showNews(news);
+                            isLastPage = news.size() < Constants.NEWS_PAGE_SIZE;
+                        },
+                        throwable -> {
+                            isLoading = false;
+                            view.showError(throwable.getMessage());
+                        });
         compositeDisposable.add(disposable);
+    }
+
+    @Override
+    public boolean isLoading() {
+        return isLoading;
+    }
+
+    @Override
+    public boolean isLastPage() {
+        return isLastPage;
+    }
+
+    private void showLoading() {
+        isLoading = true;
+        view.showLoading();
+    }
+
+    private void hideLoading() {
+        isLoading = false;
+        view.hideLoading();
     }
 
 }

@@ -19,7 +19,7 @@ public class GetNewsUseCase {
         this.newsRepository = newsRepository;
     }
 
-    public Single<List<Report>> getNews() {
-        return newsRepository.getNews();
+    public Single<List<Report>> getNews(int pageNumber) {
+        return newsRepository.getNews(pageNumber);
     }
 }

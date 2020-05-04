@@ -11,6 +11,8 @@ import com.example.cleanarchitecture.R;
 import com.example.cleanarchitecture.databinding.FragmentNewsBinding;
 import com.example.cleanarchitecture.presentation.model.ReportDto;
 import com.example.cleanarchitecture.presentation.view.base.BaseFragment;
+import com.example.cleanarchitecture.presentation.view.util.Constants;
+import com.example.cleanarchitecture.presentation.view.widget.PaginationListener;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
@@ -81,14 +83,12 @@ public class NewsFragment extends BaseFragment implements NewsContract.View {
 
     @Override
     public void showLoading() {
-        binding.progressNews.setVisibility(View.VISIBLE);
-        binding.listNews.setVisibility(View.GONE);
+        adapter.showLoading();
     }
 
     @Override
     public void hideLoading() {
-        binding.progressNews.setVisibility(View.GONE);
-        binding.listNews.setVisibility(View.VISIBLE);
+        adapter.hideLoading();
     }
 
     @Override
@@ -108,8 +108,29 @@ public class NewsFragment extends BaseFragment implements NewsContract.View {
     }
 
     private void initializeRecyclerView() {
-        binding.listNews.setLayoutManager(new LinearLayoutManager(context));
-        binding.listNews.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        binding.listNews.setLayoutManager(layoutManager);
         binding.listNews.setAdapter(adapter);
+        binding.listNews.addOnScrollListener(new PaginationListener(layoutManager) {
+            @Override
+            public void loadPage() {
+                presenter.loadPageNews();
+            }
+
+            @Override
+            public boolean isLastPage() {
+                return presenter.isLastPage();
+            }
+
+            @Override
+            public boolean isLoading() {
+                return presenter.isLoading();
+            }
+
+            @Override
+            public int getPageSize() {
+                return Constants.NEWS_PAGE_SIZE;
+            }
+        });
     }
 }
