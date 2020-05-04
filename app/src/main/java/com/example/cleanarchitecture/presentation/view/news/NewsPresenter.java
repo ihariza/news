@@ -17,7 +17,7 @@ public class NewsPresenter extends BasePresenter<NewsContract.View>
     private GetNewsUseCase getNewsUseCase;
     private ReportToReportDtoMapper reportToReportDtoMapper;
     private SchedulerProvider schedulerProvider;
-    private int pageNumber = 1;
+    private int pageNumber;
     private boolean isLoading;
     private boolean isLastPage;
 
@@ -34,6 +34,7 @@ public class NewsPresenter extends BasePresenter<NewsContract.View>
 
     @Override
     public void start() {
+        pageNumber = 1;
         loadPageNews();
     }
 
