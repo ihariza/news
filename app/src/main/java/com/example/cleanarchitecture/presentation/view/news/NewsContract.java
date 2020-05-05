@@ -18,6 +18,8 @@ public interface NewsContract {
 
         void showNews(List<ReportDto> news);
 
+        void showRefreshedNews(List<ReportDto> news);
+
         void openReport(String reportId);
     }
 
@@ -32,7 +34,9 @@ public interface NewsContract {
 
     interface Pagination {
 
-        void loadPageNews();
+        void loadNewsPage();
+
+        void refreshNews();
 
         boolean isLoading();
 

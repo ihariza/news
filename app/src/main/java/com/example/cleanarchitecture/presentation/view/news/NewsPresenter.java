@@ -7,6 +7,8 @@ import com.example.cleanarchitecture.presentation.model.mapper.ReportToReportDto
 import com.example.cleanarchitecture.presentation.view.base.BasePresenter;
 import com.example.cleanarchitecture.presentation.view.util.Constants;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -35,7 +37,7 @@ public class NewsPresenter extends BasePresenter<NewsContract.View>
     @Override
     public void start() {
         pageNumber = 1;
-        loadPageNews();
+        loadNewsPage();
     }
 
     @Override
@@ -44,18 +46,28 @@ public class NewsPresenter extends BasePresenter<NewsContract.View>
     }
 
     @Override
-    public void loadPageNews() {
+    public void loadNewsPage() {
         showLoading();
+        getNews(false);
+    }
+
+    @Override
+    public void refreshNews() {
+        pageNumber = 1;
+        getNews(true);
+    }
+
+    private void getNews(boolean refresh) {
         Disposable disposable = getNewsUseCase.getNews(pageNumber)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .map(reportToReportDtoMapper::map)
-                .doAfterTerminate(this::hideLoading)
+                .doAfterTerminate(() -> hideLoading(refresh))
                 .subscribe(news -> {
                             pageNumber++;
                             isLoading = false;
-                            view.showNews(news);
                             isLastPage = news.size() < Constants.NEWS_PAGE_SIZE;
+                            showNews(news, refresh);
                         },
                         throwable -> {
                             isLoading = false;
@@ -74,14 +86,24 @@ public class NewsPresenter extends BasePresenter<NewsContract.View>
         return isLastPage;
     }
 
+    private void showNews(List<ReportDto> news, boolean refresh) {
+        if (refresh) {
+            view.showRefreshedNews(news);
+        } else {
+            view.showNews(news);
+        }
+    }
+
     private void showLoading() {
         isLoading = true;
         view.showLoading();
     }
 
-    private void hideLoading() {
-        isLoading = false;
-        view.hideLoading();
+    private void hideLoading(boolean refresh) {
+        if (!refresh) {
+            isLoading = false;
+            view.hideLoading();
+        }
     }
 
 }

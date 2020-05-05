@@ -66,6 +66,11 @@ public class NewsAdapter extends RecyclerView.Adapter<BaseViewHolder<ReportDto>>
         notifyDataSetChanged();
     }
 
+    void refresh(Collection<ReportDto> collection) {
+        news.clear();
+        addAll(collection);
+    }
+
     void showLoading() {
         news.add(null);
         notifyItemInserted(news.size() - 1);
@@ -75,4 +80,5 @@ public class NewsAdapter extends RecyclerView.Adapter<BaseViewHolder<ReportDto>>
         news.remove(null);
         notifyItemRemoved(news.size() - 1);
     }
+
 }

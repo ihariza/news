@@ -5,6 +5,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.cleanarchitecture.R;
@@ -48,6 +49,7 @@ public class NewsFragment extends BaseFragment implements NewsContract.View {
         setHasOptionsMenu(true);
         initializeToolbar();
         initializeAdapter();
+        initializeSwipeRefresh();
         initializeRecyclerView();
         presenter.start();
     }
@@ -73,7 +75,12 @@ public class NewsFragment extends BaseFragment implements NewsContract.View {
     @Override
     public void showNews(List<ReportDto> news) {
         adapter.addAll(news);
-        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showRefreshedNews(List<ReportDto> news) {
+        binding.swipeRefresh.setRefreshing(false);
+        adapter.refresh(news);
     }
 
     @Override
@@ -107,6 +114,12 @@ public class NewsFragment extends BaseFragment implements NewsContract.View {
         adapter = new NewsAdapter(presenter);
     }
 
+    private void initializeSwipeRefresh() {
+        binding.swipeRefresh.setColorSchemeColors(ContextCompat.getColor(
+                baseActivity, R.color.colorAccent));
+        binding.swipeRefresh.setOnRefreshListener(this::onRefresh);
+    }
+
     private void initializeRecyclerView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         binding.listNews.setLayoutManager(layoutManager);
@@ -114,7 +127,7 @@ public class NewsFragment extends BaseFragment implements NewsContract.View {
         binding.listNews.addOnScrollListener(new PaginationListener(layoutManager) {
             @Override
             public void loadPage() {
-                presenter.loadPageNews();
+                presenter.loadNewsPage();
             }
 
             @Override
@@ -132,5 +145,9 @@ public class NewsFragment extends BaseFragment implements NewsContract.View {
                 return Constants.NEWS_PAGE_SIZE;
             }
         });
+    }
+
+    private void onRefresh() {
+        presenter.refreshNews();
     }
 }
