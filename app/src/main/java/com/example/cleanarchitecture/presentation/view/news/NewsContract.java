@@ -14,6 +14,8 @@ public interface NewsContract {
 
         void hideLoading();
 
+        void hideRefresh();
+
         void showError(String message);
 
         void showNews(List<ReportDto> news);
@@ -25,22 +27,18 @@ public interface NewsContract {
 
     interface Presenter extends BasePresenterContract {
 
+        void refreshNews();
+
+        void loadNewsPage();
+
+        boolean isLoading();
+
+        boolean isLastPage();
     }
 
     interface ReportListener {
 
         void onReportClicked(ReportDto report);
-    }
-
-    interface Pagination {
-
-        void loadNewsPage();
-
-        void refreshNews();
-
-        boolean isLoading();
-
-        boolean isLastPage();
     }
 
 }

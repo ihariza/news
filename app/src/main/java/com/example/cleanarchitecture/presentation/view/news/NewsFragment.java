@@ -79,7 +79,6 @@ public class NewsFragment extends BaseFragment implements NewsContract.View {
 
     @Override
     public void showRefreshedNews(List<ReportDto> news) {
-        binding.swipeRefresh.setRefreshing(false);
         adapter.refresh(news);
     }
 
@@ -96,6 +95,11 @@ public class NewsFragment extends BaseFragment implements NewsContract.View {
     @Override
     public void hideLoading() {
         adapter.hideLoading();
+    }
+
+    @Override
+    public void hideRefresh() {
+        binding.swipeRefresh.setRefreshing(false);
     }
 
     @Override

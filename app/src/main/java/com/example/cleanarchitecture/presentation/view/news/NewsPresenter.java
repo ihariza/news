@@ -14,7 +14,7 @@ import javax.inject.Inject;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public class NewsPresenter extends BasePresenter<NewsContract.View>
-        implements NewsContract.Presenter, NewsContract.ReportListener, NewsContract.Pagination {
+        implements NewsContract.Presenter, NewsContract.ReportListener {
 
     private GetNewsUseCase getNewsUseCase;
     private ReportToReportDtoMapper reportToReportDtoMapper;
@@ -47,7 +47,7 @@ public class NewsPresenter extends BasePresenter<NewsContract.View>
 
     @Override
     public void loadNewsPage() {
-        showLoading();
+        view.showLoading();
         getNews(false);
     }
 
@@ -58,6 +58,7 @@ public class NewsPresenter extends BasePresenter<NewsContract.View>
     }
 
     private void getNews(boolean refresh) {
+        isLoading = true;
         Disposable disposable = getNewsUseCase.getNews(pageNumber)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
@@ -94,14 +95,11 @@ public class NewsPresenter extends BasePresenter<NewsContract.View>
         }
     }
 
-    private void showLoading() {
-        isLoading = true;
-        view.showLoading();
-    }
-
     private void hideLoading(boolean refresh) {
-        if (!refresh) {
-            isLoading = false;
+        isLoading = false;
+        if (refresh) {
+            view.hideRefresh();
+        } else {
             view.hideLoading();
         }
     }
