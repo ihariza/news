@@ -29,7 +29,9 @@ public class NewsRepositoryImp implements NewsRepository {
     @Override
     public Single<List<Report>> getNews(int pageNumber) {
         return remoteNewsRepository.getNews(pageNumber).map(reportEntities -> {
-            localNewsRepository.removeAll().subscribe();
+            if (pageNumber == 1) {
+                localNewsRepository.removeAll().subscribe();
+            }
             localNewsRepository.saveAll(reportEntities).subscribe();
             return reportEntityToReportMapper.map(reportEntities);
         });
