@@ -21,7 +21,9 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     protected void onCreate(Bundle savedInstanceState) {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         super.onCreate(savedInstanceState);
-        presenter.start();
+        if (savedInstanceState == null) {
+            presenter.start();
+        }
     }
 
     @Override

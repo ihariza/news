@@ -28,6 +28,7 @@ public class NewsFragment extends BaseFragment implements NewsContract.View {
     private FragmentNewsBinding binding;
     private NewsAdapter adapter;
 
+
     public NewsFragment() {
         // Required empty public constructor
     }
@@ -40,18 +41,20 @@ public class NewsFragment extends BaseFragment implements NewsContract.View {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = FragmentNewsBinding.bind(view);
-        setHasOptionsMenu(true);
         initializeToolbar();
         initializeAdapter();
         initializeSwipeRefresh();
         initializeRecyclerView();
-        presenter.start();
+        if (savedInstanceState == null && adapter.getItemCount() == 0) {
+            presenter.start();
+        }
     }
 
     @Override
@@ -75,6 +78,7 @@ public class NewsFragment extends BaseFragment implements NewsContract.View {
     @Override
     public void showNews(List<ReportDto> news) {
         adapter.addAll(news);
+
     }
 
     @Override
@@ -115,7 +119,9 @@ public class NewsFragment extends BaseFragment implements NewsContract.View {
     }
 
     private void initializeAdapter() {
-        adapter = new NewsAdapter(presenter);
+        if (adapter == null) {
+            adapter = new NewsAdapter(presenter);
+        }
     }
 
     private void initializeSwipeRefresh() {
@@ -126,12 +132,11 @@ public class NewsFragment extends BaseFragment implements NewsContract.View {
 
     private void initializeRecyclerView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        binding.listNews.setLayoutManager(layoutManager);
-        binding.listNews.setAdapter(adapter);
-        binding.listNews.addOnScrollListener(new PaginationListener(layoutManager) {
+        PaginationListener paginationListener = new PaginationListener(
+                layoutManager, Constants.NEWS_PAGE_SIZE) {
             @Override
-            public void loadPage() {
-                presenter.loadNewsPage();
+            public void loadPage(int pageNumber) {
+                presenter.getNewsPage(pageNumber);
             }
 
             @Override
@@ -143,12 +148,10 @@ public class NewsFragment extends BaseFragment implements NewsContract.View {
             public boolean isLoading() {
                 return presenter.isLoading();
             }
-
-            @Override
-            public int getPageSize() {
-                return Constants.NEWS_PAGE_SIZE;
-            }
-        });
+        };
+        binding.recyclerview.setLayoutManager(layoutManager);
+        binding.recyclerview.setAdapter(adapter);
+        binding.recyclerview.addOnScrollListener(paginationListener);
     }
 
     private void onRefresh() {

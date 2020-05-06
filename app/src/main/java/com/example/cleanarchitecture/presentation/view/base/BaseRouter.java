@@ -19,7 +19,7 @@ public class BaseRouter {
         show(fragment, addToBackStack, null);
     }
 
-    private void show(BaseFragment fragment, boolean addToBackStack, String fragmentTag) {
+    protected void show(BaseFragment fragment, boolean addToBackStack, String fragmentTag) {
         if (checkContextAvailability()) {
             String backstateName = fragment.getClass().getName();
             FragmentManager fragmentManager = activity.getSupportFragmentManager();

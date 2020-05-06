@@ -19,9 +19,9 @@ public class NewsPresenter extends BasePresenter<NewsContract.View>
     private GetNewsUseCase getNewsUseCase;
     private ReportToReportDtoMapper reportToReportDtoMapper;
     private SchedulerProvider schedulerProvider;
-    private int pageNumber;
     private boolean isLoading;
     private boolean isLastPage;
+    private int currentPage;
 
     @Inject
     public NewsPresenter(NewsContract.View view,
@@ -32,12 +32,12 @@ public class NewsPresenter extends BasePresenter<NewsContract.View>
         this.schedulerProvider = schedulerProvider;
         this.getNewsUseCase = getNewsUseCase;
         this.reportToReportDtoMapper = reportToReportDtoMapper;
+        currentPage = Constants.START_NEWS_PAGE;
     }
 
     @Override
     public void start() {
-        pageNumber = 1;
-        loadNewsPage();
+        getNewsPage(currentPage);
     }
 
     @Override
@@ -46,26 +46,26 @@ public class NewsPresenter extends BasePresenter<NewsContract.View>
     }
 
     @Override
-    public void loadNewsPage() {
+    public void getNewsPage(int pageNumber) {
         view.showLoading();
-        getNews(false);
+        currentPage = pageNumber;
+        getNews( false);
     }
 
     @Override
     public void refreshNews() {
-        pageNumber = 1;
+        currentPage = Constants.START_NEWS_PAGE;
         getNews(true);
     }
 
     private void getNews(boolean refresh) {
         isLoading = true;
-        Disposable disposable = getNewsUseCase.getNews(pageNumber)
+        Disposable disposable = getNewsUseCase.getNews(currentPage)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .map(reportToReportDtoMapper::map)
                 .doAfterTerminate(() -> hideLoading(refresh))
                 .subscribe(news -> {
-                            pageNumber++;
                             isLoading = false;
                             isLastPage = news.size() < Constants.NEWS_PAGE_SIZE;
                             showNews(news, refresh);

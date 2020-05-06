@@ -2,7 +2,6 @@ package com.example.cleanarchitecture.presentation.view.main;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.cleanarchitecture.presentation.model.ReportDto;
 import com.example.cleanarchitecture.presentation.view.base.BaseRouter;
 import com.example.cleanarchitecture.presentation.view.news.NewsFragment;
 import com.example.cleanarchitecture.presentation.view.report.ReportFragment;
@@ -15,7 +14,7 @@ public class MainRouter extends BaseRouter implements MainRouterContract {
 
     @Override
     public void showNews() {
-        show(new NewsFragment(), false);
+        show(new NewsFragment(), true);
     }
 
     @Override

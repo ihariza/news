@@ -8,12 +8,14 @@ public abstract class PaginationListener extends RecyclerView.OnScrollListener {
 
     @NonNull
     private LinearLayoutManager layoutManager;
+    private int pageSize;
 
     /**
      * Supporting only LinearLayoutManager for now.
      */
-    protected PaginationListener(@NonNull LinearLayoutManager layoutManager) {
+    protected PaginationListener(@NonNull LinearLayoutManager layoutManager, int pageSize) {
         this.layoutManager = layoutManager;
+        this.pageSize = pageSize;
     }
 
     @Override
@@ -25,17 +27,15 @@ public abstract class PaginationListener extends RecyclerView.OnScrollListener {
         if (!isLoading() && !isLastPage()) {
             if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
                     && firstVisibleItemPosition >= 0
-                    && totalItemCount >= getPageSize()) {
-                loadPage();
+                    && totalItemCount >= pageSize) {
+                loadPage((totalItemCount / pageSize) + 1);
             }
         }
     }
 
-    public abstract void loadPage();
+    public abstract void loadPage(int pageNumber);
 
     public abstract boolean isLastPage();
 
     public abstract boolean isLoading();
-
-    public abstract int getPageSize();
 }

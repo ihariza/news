@@ -29,7 +29,7 @@ public interface NewsContract {
 
         void refreshNews();
 
-        void loadNewsPage();
+        void getNewsPage(int pageNumber);
 
         boolean isLoading();
 
