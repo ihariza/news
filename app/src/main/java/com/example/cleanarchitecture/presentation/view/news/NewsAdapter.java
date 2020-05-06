@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cleanarchitecture.databinding.LoadingRowBinding;
 import com.example.cleanarchitecture.databinding.NewRowBinding;
+import com.example.cleanarchitecture.presentation.model.LoadingDto;
 import com.example.cleanarchitecture.presentation.model.ReportDto;
 import com.example.cleanarchitecture.presentation.view.base.BaseViewHolder;
 
@@ -23,10 +24,12 @@ public class NewsAdapter extends RecyclerView.Adapter<BaseViewHolder<ReportDto>>
 
     private final NewsPresenter presenter;
     private final List<ReportDto> news;
+    private final LoadingDto loadingDto;
 
     NewsAdapter(@NonNull NewsPresenter presenter) {
         this.presenter = presenter;
-        news = new ArrayList<>();
+        this.news = new ArrayList<>();
+        this.loadingDto = new LoadingDto();
     }
 
     @Override
@@ -51,8 +54,6 @@ public class NewsAdapter extends RecyclerView.Adapter<BaseViewHolder<ReportDto>>
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder<ReportDto> holder, int position) {
-        ReportDto report = news.get(position);
-        if (report == null) return;
         holder.onBind(news.get(position));
     }
 
@@ -72,12 +73,12 @@ public class NewsAdapter extends RecyclerView.Adapter<BaseViewHolder<ReportDto>>
     }
 
     void showLoading() {
-        news.add(null);
+        news.add(loadingDto);
         notifyDataSetChanged();
     }
 
     void hideLoading() {
-        news.remove(null);
+        news.remove(loadingDto);
         notifyDataSetChanged();
     }
 
