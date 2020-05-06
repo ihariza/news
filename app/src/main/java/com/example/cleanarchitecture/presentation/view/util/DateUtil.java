@@ -15,7 +15,7 @@ public class DateUtil {
     public static String formatTimestampIntoDate(String timestamp) {
         String newDate = null;
         SimpleDateFormat currentSdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss +0000", Locale.getDefault());
-        SimpleDateFormat newSdf = new SimpleDateFormat("dd-MM-yyyy",
+        SimpleDateFormat newSdf = new SimpleDateFormat("dd-MM-yyyy HH:mm'h'",
                 Locale.getDefault());
         try {
             long currentTime = currentSdf.parse(timestamp).getTime();

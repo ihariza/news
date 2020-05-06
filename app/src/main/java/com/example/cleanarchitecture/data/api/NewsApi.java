@@ -11,5 +11,6 @@ public interface NewsApi {
     @GET("latest-news")
     Single<NewsData> getLatestNews(@Query("apiKey") String apiKey,
                                    @Query("language") String language,
+                                   @Query("country") String country,
                                    @Query("page_number") int pageNumber);
 }

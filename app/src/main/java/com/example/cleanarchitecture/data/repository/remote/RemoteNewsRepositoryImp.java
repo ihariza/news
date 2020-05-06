@@ -26,7 +26,8 @@ public class RemoteNewsRepositoryImp implements RemoteNewsRepository {
 
     @Override
     public Single<List<ReportEntity>> getNews(int pageNumber) {
-        return RxJavaBridge.toV3Single(newsApi.getLatestNews(BuildConfig.NEWS_API, "es", pageNumber)
+        return RxJavaBridge.toV3Single(newsApi.getLatestNews(BuildConfig.NEWS_API,
+                "es", "", pageNumber)
                 .map(newsData -> reportDataToReportEntityMapper.map(newsData.getNews())));
     }
 }
