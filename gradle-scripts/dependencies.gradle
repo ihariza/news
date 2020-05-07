@@ -75,8 +75,9 @@ ext {
     Gson = buildDependency(gsonPackage, 'gson', gsonVersion)
 
     GlideDependencies =  [
-            core     : buildDependency(glidePackage, 'glide', glideVersion),
-            compiler : buildDependency(glidePackage, 'compiler', glideVersion)]
+            core                : buildDependency(glidePackage, 'glide', glideVersion),
+            compiler            : buildDependency(glidePackage, 'compiler', glideVersion),
+            recyclerIntegration : buildDependency(glidePackage, 'recyclerview-integration', glideVersion)]
 
     StethoDependencies = [
             core   : buildDependency(stethoPackage, 'stetho', stethoVersion),

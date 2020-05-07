@@ -110,6 +110,7 @@ dependencies {
 
   implementation GlideDependencies.core
   annotationProcessor GlideDependencies.compiler
+  implementation GlideDependencies.recyclerIntegration
 
   implementation StethoDependencies.core
   implementation StethoDependencies.okhttp

@@ -23,13 +23,18 @@ class NewsViewHolder extends BaseViewHolder<ReportDto> {
     }
 
     @Override
-    public void onBind(ReportDto report) {
+    public void bind(ReportDto report) {
         renderReportImage(report.getImage());
         renderReportTitle(report.getTitle());
         renderReportDescription(report.getDescription());
         renderReportAuthor(report.getAuthor());
         renderReportPublished(report.getPublished());
         onItemClick(report);
+    }
+
+    @Override
+    public void unbind() {
+        Glide.with(newsRowBinding.getRoot().getContext()).clear(newsRowBinding.image);
     }
 
     private void renderReportImage(String urlImage) {

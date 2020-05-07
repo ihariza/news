@@ -8,6 +8,8 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader;
 import com.example.cleanarchitecture.R;
 import com.example.cleanarchitecture.databinding.FragmentNewsBinding;
 import com.example.cleanarchitecture.presentation.model.ReportDto;
@@ -120,7 +122,7 @@ public class NewsFragment extends BaseFragment implements NewsContract.View {
 
     private void initializeAdapter() {
         if (adapter == null) {
-            adapter = new NewsAdapter(presenter);
+            adapter = new NewsAdapter(binding.getRoot().getContext(), presenter);
         }
     }
 
@@ -152,6 +154,12 @@ public class NewsFragment extends BaseFragment implements NewsContract.View {
         binding.recyclerview.setLayoutManager(layoutManager);
         binding.recyclerview.setAdapter(adapter);
         binding.recyclerview.addOnScrollListener(paginationListener);
+
+        RecyclerViewPreloader<ReportDto> imagePreloader =
+                new RecyclerViewPreloader<>(
+                        Glide.with(this), adapter, adapter.getImageSizeProvider(),
+                        Constants.PRELOAD_NEWS_IMAGES);
+        binding.recyclerview.addOnScrollListener(imagePreloader);
     }
 
     private void onRefresh() {
