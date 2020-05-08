@@ -31,7 +31,7 @@ public class ReportFragment extends BaseFragment implements ReportContract.View 
     private static final String REPORT_ID = "report_id";
 
     @Inject
-    ReportPresenter presenter;
+    ReportContract.Presenter presenter;
 
     private FragmentReportBinding binding;
 

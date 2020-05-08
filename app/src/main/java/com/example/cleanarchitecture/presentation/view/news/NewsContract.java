@@ -27,18 +27,15 @@ public interface NewsContract {
 
     interface Presenter extends BasePresenterContract {
 
-        void refreshNews();
-
         void getNewsPage(int pageNumber);
 
-        boolean isLoading();
+        void refreshNews();
 
-        boolean isLastPage();
-    }
+        void openReport(ReportDto report);
 
-    interface ReportListener {
+        boolean isNewsLoading();
 
-        void onReportClicked(ReportDto report);
+        boolean isNewsLastPage();
     }
 
 }

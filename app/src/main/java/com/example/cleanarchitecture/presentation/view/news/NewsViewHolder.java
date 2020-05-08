@@ -5,7 +5,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.example.cleanarchitecture.databinding.NewRowBinding;
 import com.example.cleanarchitecture.presentation.model.ReportDto;
 import com.example.cleanarchitecture.presentation.view.base.BaseViewHolder;
@@ -14,11 +14,14 @@ import com.example.cleanarchitecture.presentation.view.util.DateUtil;
 class NewsViewHolder extends BaseViewHolder<ReportDto> {
 
     private final NewRowBinding newsRowBinding;
-    private final NewsContract.ReportListener reportListener;
+    private final RequestManager requestManager;
+    private final NewsAdapter.ReportListener reportListener;
 
-    NewsViewHolder(@NonNull NewRowBinding binding, @NonNull NewsContract.ReportListener reportListener) {
+    NewsViewHolder(@NonNull NewRowBinding binding, @NonNull RequestManager requestManager,
+                   @NonNull NewsAdapter.ReportListener reportListener) {
         super(binding.getRoot());
         this.newsRowBinding = binding;
+        this.requestManager = requestManager;
         this.reportListener = reportListener;
     }
 
@@ -34,7 +37,7 @@ class NewsViewHolder extends BaseViewHolder<ReportDto> {
 
     @Override
     public void unbind() {
-        Glide.with(newsRowBinding.getRoot().getContext()).clear(newsRowBinding.image);
+        requestManager.clear(newsRowBinding.image);
     }
 
     private void renderReportImage(String urlImage) {
@@ -68,6 +71,6 @@ class NewsViewHolder extends BaseViewHolder<ReportDto> {
     }
 
     private void getImage(String photo, ImageView photoImageView) {
-        Glide.with(newsRowBinding.getRoot().getContext()).load(photo).centerCrop().into(photoImageView);
+       requestManager.load(photo).centerCrop().into(photoImageView);
     }
 }

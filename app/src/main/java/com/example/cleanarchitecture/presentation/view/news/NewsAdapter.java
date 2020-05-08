@@ -1,6 +1,5 @@
 package com.example.cleanarchitecture.presentation.view.news;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -8,10 +7,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.ListPreloader;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.util.ViewPreloadSizeProvider;
 import com.example.cleanarchitecture.databinding.LoadingRowBinding;
 import com.example.cleanarchitecture.databinding.NewRowBinding;
@@ -28,19 +27,25 @@ import java.util.List;
 public class NewsAdapter extends RecyclerView.Adapter<BaseViewHolder<ReportDto>>
         implements ListPreloader.PreloadModelProvider<ReportDto> {
 
+    public interface ReportListener {
+        void onReportClicked(ReportDto report);
+    }
+
     private static final int VIEW_TYPE_LOADING = 0;
     private static final int VIEW_TYPE_NORMAL = 1;
 
-    private final Context context;
-    private final NewsPresenter presenter;
+    private final ReportListener reportListener;
     private final List<ReportDto> news;
     private final LoadingDto loadingDto;
+    private final RequestManager requestManager;
     private final ViewPreloadSizeProvider<ReportDto> imageSizeProvider;
+    private boolean isLoading;
 
 
-    NewsAdapter(Context context,  @NonNull NewsPresenter presenter) {
-        this.context = context;
-        this.presenter = presenter;
+    NewsAdapter(RequestManager requestManager,
+                NewsAdapter.ReportListener reportListener) {
+        this.requestManager = requestManager;
+        this.reportListener = reportListener;
         this.imageSizeProvider = new ViewPreloadSizeProvider<>();
         this.news = new ArrayList<>();
         this.loadingDto = new LoadingDto();
@@ -48,7 +53,7 @@ public class NewsAdapter extends RecyclerView.Adapter<BaseViewHolder<ReportDto>>
 
     @Override
     public int getItemViewType(int position) {
-        if (presenter.isLoading()) {
+        if (isLoading) {
             return position == news.size() - 1  ? VIEW_TYPE_LOADING : VIEW_TYPE_NORMAL;
         } else {
             return VIEW_TYPE_NORMAL;
@@ -65,7 +70,7 @@ public class NewsAdapter extends RecyclerView.Adapter<BaseViewHolder<ReportDto>>
         NewRowBinding newRowBinding = NewRowBinding.inflate(LayoutInflater.from(
                 parent.getContext()), parent, false);
         imageSizeProvider.setView(newRowBinding.image);
-        return new NewsViewHolder(newRowBinding, presenter);
+        return new NewsViewHolder(newRowBinding, requestManager, reportListener);
     }
 
     @Override
@@ -93,7 +98,7 @@ public class NewsAdapter extends RecyclerView.Adapter<BaseViewHolder<ReportDto>>
     @Nullable
     @Override
     public RequestBuilder<?> getPreloadRequestBuilder(@NonNull ReportDto item) {
-        return Glide.with(context).load(item.getImage()).centerCrop().priority(Priority.HIGH);
+        return requestManager.load(item.getImage()).centerCrop().priority(Priority.HIGH);
     }
 
     ViewPreloadSizeProvider<ReportDto> getImageSizeProvider() {
@@ -111,11 +116,13 @@ public class NewsAdapter extends RecyclerView.Adapter<BaseViewHolder<ReportDto>>
     }
 
     void showLoading() {
+        isLoading = true;
         news.add(loadingDto);
         notifyDataSetChanged();
     }
 
     void hideLoading() {
+        isLoading = false;
         news.remove(loadingDto);
         notifyDataSetChanged();
     }

@@ -14,7 +14,7 @@ import javax.inject.Inject;
 import io.reactivex.rxjava3.disposables.Disposable;
 
 public class NewsPresenter extends BasePresenter<NewsContract.View>
-        implements NewsContract.Presenter, NewsContract.ReportListener {
+        implements NewsContract.Presenter {
 
     private GetNewsUseCase getNewsUseCase;
     private ReportToReportDtoMapper reportToReportDtoMapper;
@@ -38,11 +38,6 @@ public class NewsPresenter extends BasePresenter<NewsContract.View>
     @Override
     public void start() {
         getNewsPage(currentPage);
-    }
-
-    @Override
-    public void onReportClicked(ReportDto report) {
-        view.openReport(report.getId());
     }
 
     @Override
@@ -78,12 +73,12 @@ public class NewsPresenter extends BasePresenter<NewsContract.View>
     }
 
     @Override
-    public boolean isLoading() {
+    public boolean isNewsLoading() {
         return isLoading;
     }
 
     @Override
-    public boolean isLastPage() {
+    public boolean isNewsLastPage() {
         return isLastPage;
     }
 
@@ -102,6 +97,11 @@ public class NewsPresenter extends BasePresenter<NewsContract.View>
         } else {
             view.hideLoading();
         }
+    }
+
+    @Override
+    public void openReport(ReportDto report) {
+        view.openReport(report.getId());
     }
 
 }

@@ -14,4 +14,5 @@ abstract class NewFragmentModule {
 
     @Binds
     abstract NewsContract.Presenter bindNewsPresenter(NewsPresenter presenter);
+    
 }

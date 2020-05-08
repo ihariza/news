@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader;
 import com.example.cleanarchitecture.R;
 import com.example.cleanarchitecture.databinding.FragmentNewsBinding;
@@ -22,10 +22,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class NewsFragment extends BaseFragment implements NewsContract.View {
+public class NewsFragment extends BaseFragment
+        implements NewsContract.View, NewsAdapter.ReportListener {
 
     @Inject
-    NewsPresenter presenter;
+    NewsContract.Presenter presenter;
+    @Inject
+    RequestManager glideRequestManager;
 
     private FragmentNewsBinding binding;
     private NewsAdapter adapter;
@@ -113,6 +116,11 @@ public class NewsFragment extends BaseFragment implements NewsContract.View {
         Snackbar.make(binding.getRoot(), message, Snackbar.LENGTH_LONG);
     }
 
+    @Override
+    public void onReportClicked(ReportDto report) {
+        presenter.openReport(report);
+    }
+
     private void initializeToolbar() {
         baseActivity.setSupportActionBar(binding.toolbar);
         if (baseActivity.getSupportActionBar() != null) {
@@ -122,7 +130,7 @@ public class NewsFragment extends BaseFragment implements NewsContract.View {
 
     private void initializeAdapter() {
         if (adapter == null) {
-            adapter = new NewsAdapter(binding.getRoot().getContext(), presenter);
+            adapter = new NewsAdapter(glideRequestManager, this);
         }
     }
 
@@ -143,12 +151,12 @@ public class NewsFragment extends BaseFragment implements NewsContract.View {
 
             @Override
             public boolean isLastPage() {
-                return presenter.isLastPage();
+                return presenter.isNewsLastPage();
             }
 
             @Override
             public boolean isLoading() {
-                return presenter.isLoading();
+                return presenter.isNewsLoading();
             }
         };
         binding.recyclerview.setLayoutManager(layoutManager);
@@ -157,7 +165,7 @@ public class NewsFragment extends BaseFragment implements NewsContract.View {
 
         RecyclerViewPreloader<ReportDto> imagePreloader =
                 new RecyclerViewPreloader<>(
-                        Glide.with(this), adapter, adapter.getImageSizeProvider(),
+                        glideRequestManager, adapter, adapter.getImageSizeProvider(),
                         Constants.PRELOAD_NEWS_IMAGES);
         binding.recyclerview.addOnScrollListener(imagePreloader);
     }
