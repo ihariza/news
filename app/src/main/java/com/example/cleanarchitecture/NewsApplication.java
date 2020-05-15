@@ -34,6 +34,11 @@ public class NewsApplication extends MultiDexApplication implements HasAndroidIn
         setupStetho();
     }
 
+    @Override
+    public AndroidInjector<Object> androidInjector() {
+        return androidInjector;
+    }
+
     private void setupStetho() {
         if (BuildConfig.DEBUG && !isUnitTesting()) {
             Stetho.initializeWithDefaults(this);
@@ -42,10 +47,5 @@ public class NewsApplication extends MultiDexApplication implements HasAndroidIn
 
     public boolean isUnitTesting() {
         return false;
-    }
-
-    @Override
-    public AndroidInjector<Object> androidInjector() {
-        return androidInjector;
     }
 }
