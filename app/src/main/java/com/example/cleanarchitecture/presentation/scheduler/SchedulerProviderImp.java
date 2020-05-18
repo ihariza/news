@@ -1,9 +1,9 @@
 package com.example.cleanarchitecture.presentation.scheduler;
 
 import com.example.cleanarchitecture.domain.scheduler.SchedulerProvider;
+import com.example.cleanarchitecture.injection.scopes.PerApplication;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Scheduler;
@@ -13,7 +13,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
  * MainThread (UI Thread) implementation based on a {@link Scheduler}
  * which will execute actions on the Android UI thread
  */
-@Singleton
+@PerApplication
 public class SchedulerProviderImp implements SchedulerProvider {
 
     @Inject

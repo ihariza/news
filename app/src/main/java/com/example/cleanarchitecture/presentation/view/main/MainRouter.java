@@ -8,7 +8,7 @@ import com.example.cleanarchitecture.presentation.view.report.ReportFragment;
 
 public class MainRouter extends BaseRouter implements MainRouterContract {
 
-    public MainRouter(AppCompatActivity activity, int containerId) {
+    MainRouter(AppCompatActivity activity, int containerId) {
         super(activity, containerId);
     }
 

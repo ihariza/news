@@ -1,5 +1,6 @@
 package com.example.cleanarchitecture.injection.modules.fragment;
 
+import com.example.cleanarchitecture.injection.modules.ManagersModule;
 import com.example.cleanarchitecture.injection.scopes.PerFragment;
 import com.example.cleanarchitecture.presentation.view.news.NewsFragment;
 import com.example.cleanarchitecture.presentation.view.report.ReportFragment;
@@ -11,11 +12,11 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class FragmentBindingModule {
 
     @PerFragment
-    @ContributesAndroidInjector(modules = {NewFragmentModule.class})
+    @ContributesAndroidInjector(modules = {NewFragmentModule.class, ManagersModule.class})
     abstract NewsFragment bindNewsFragment();
 
     @PerFragment
-    @ContributesAndroidInjector(modules = {ReportFragmentModule.class})
+    @ContributesAndroidInjector(modules = {ReportFragmentModule.class, ManagersModule.class})
     abstract ReportFragment bindReportFragment();
 
 }

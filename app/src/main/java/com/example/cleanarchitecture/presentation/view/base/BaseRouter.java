@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-public class BaseRouter {
+public class BaseRouter implements BaseRouterContract {
 
     private AppCompatActivity activity;
     private int containerId;
@@ -39,6 +39,16 @@ public class BaseRouter {
         if (checkContextAvailability() && fragment != null) {
             activity.getSupportFragmentManager().beginTransaction().remove(fragment).commit();
         }
+    }
+
+    @Override
+    public void backView() {
+        activity.getSupportFragmentManager().popBackStack();
+    }
+
+    @Override
+    public void finishView() {
+        activity.finish();
     }
 
     private boolean checkContextAvailability() {

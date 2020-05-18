@@ -4,9 +4,6 @@ import android.os.Bundle;
 
 import androidx.viewbinding.ViewBinding;
 
-import com.example.cleanarchitecture.presentation.view.main.MainRouter;
-import com.example.cleanarchitecture.presentation.view.main.MainRouterContract;
-
 import dagger.android.support.DaggerAppCompatActivity;
 
 /**
@@ -18,13 +15,10 @@ import dagger.android.support.DaggerAppCompatActivity;
  */
 public abstract class BaseActivity extends DaggerAppCompatActivity {
 
-    private MainRouterContract navigation;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getViewBinding().getRoot());
-        navigation = new MainRouter(this, geContainerId());
     }
 
     /**
@@ -32,9 +26,5 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
      */
     protected abstract ViewBinding getViewBinding();
 
-    protected abstract int geContainerId();
-
-    public MainRouterContract getNavigation() {
-        return navigation;
-    }
+    public abstract <T extends BaseRouterContract> T getRouter();
 }

@@ -14,4 +14,5 @@ abstract class MainActivityModule {
 
     @Binds
     abstract MainContract.Presenter bindMainPresenter(MainPresenter presenter);
+
 }

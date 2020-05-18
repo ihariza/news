@@ -31,6 +31,7 @@ public class ApplicationModule {
     }
 
     @Provides
+    @PerApplication
     SchedulerProvider provideSchedulerProvider(SchedulerProviderImp schedulerProviderImp) {
         return schedulerProviderImp;
     }

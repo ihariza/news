@@ -14,6 +14,7 @@ import com.example.cleanarchitecture.R;
 import com.example.cleanarchitecture.databinding.FragmentNewsBinding;
 import com.example.cleanarchitecture.presentation.model.ReportDto;
 import com.example.cleanarchitecture.presentation.view.base.BaseFragment;
+import com.example.cleanarchitecture.presentation.view.main.MainRouterContract;
 import com.example.cleanarchitecture.presentation.view.util.Constants;
 import com.example.cleanarchitecture.presentation.view.widget.PaginationListener;
 import com.google.android.material.snackbar.Snackbar;
@@ -27,10 +28,12 @@ public class NewsFragment extends BaseFragment
 
     @Inject
     NewsContract.Presenter presenter;
+
     @Inject
     RequestManager glideRequestManager;
 
     private FragmentNewsBinding binding;
+    private MainRouterContract router;
     private NewsAdapter adapter;
 
 
@@ -53,6 +56,7 @@ public class NewsFragment extends BaseFragment
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding = FragmentNewsBinding.bind(view);
+        router = getRouter();
         initializeToolbar();
         initializeAdapter();
         initializeSwipeRefresh();
@@ -77,13 +81,12 @@ public class NewsFragment extends BaseFragment
 
     @Override
     protected void onBackPressed() {
-        baseActivity.finish();
+        router.finishView();
     }
 
     @Override
     public void showNews(List<ReportDto> news) {
         adapter.addAll(news);
-
     }
 
     @Override
@@ -93,7 +96,7 @@ public class NewsFragment extends BaseFragment
 
     @Override
     public void openReport(String reportId) {
-        baseActivity.getNavigation().showReport(reportId);
+        router.showReport(reportId);
     }
 
     @Override

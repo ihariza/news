@@ -30,7 +30,7 @@ public abstract class BaseFragment extends DaggerFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
-        this.baseActivity = (BaseActivity) context;
+        this.baseActivity = (BaseActivity)context;
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
@@ -41,7 +41,12 @@ public abstract class BaseFragment extends DaggerFragment {
         baseActivity.getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
-    protected void onBackPressed() {
-        baseActivity.getSupportFragmentManager().popBackStack();
+    protected <T extends BaseRouterContract> T getRouter() {
+        return baseActivity.getRouter();
     }
+
+    protected void onBackPressed() {
+        getRouter().backView();
+    }
+
 }
