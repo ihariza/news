@@ -30,9 +30,9 @@ public class NewsRepositoryImp implements NewsRepository {
     public Single<List<Report>> getNews(int pageNumber) {
         return remoteNewsRepository.getNews(pageNumber).map(reportEntities -> {
             if (pageNumber == 1) {
-                localNewsRepository.removeAll().subscribe();
+                localNewsRepository.removeAll().onErrorComplete().subscribe();
             }
-            localNewsRepository.saveAll(reportEntities).subscribe();
+            localNewsRepository.saveAll(reportEntities).onErrorComplete().subscribe();
             return reportEntityToReportMapper.map(reportEntities);
         });
     }
