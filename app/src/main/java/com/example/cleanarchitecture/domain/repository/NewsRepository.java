@@ -4,7 +4,6 @@ import com.example.cleanarchitecture.domain.model.Report;
 
 import java.util.List;
 
-import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
 
 public interface NewsRepository {
@@ -13,7 +12,4 @@ public interface NewsRepository {
 
     Single<Report> getReport(String id);
 
-    Completable saveAll(List<Report> news);
-
-    Completable removeAll();
 }

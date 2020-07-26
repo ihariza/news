@@ -66,6 +66,7 @@ public class FakeNewsLocalAPI {
     public final static String FAKE_REPORT_DESCRIPTION = "Report description";
     private final static String FAKE_REPORT_IMAGE_URL = "http://placeimg.com/640/360/any";
     private final static String FAKE_REPORT_URL = "http://placeimg.com/";
+    private final static int FAKE_PAGE = 1;
 
     public static ReportEntity getFakeReportEntity() {
         ReportEntity reportEntity = new ReportEntity();
@@ -74,6 +75,7 @@ public class FakeNewsLocalAPI {
         reportEntity.setDescription(FAKE_REPORT_DESCRIPTION);
         reportEntity.setImage(FAKE_REPORT_IMAGE_URL);
         reportEntity.setUrl(FAKE_REPORT_URL);
+        reportEntity.setPage(FAKE_PAGE);
         return reportEntity;
     }
 

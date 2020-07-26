@@ -21,6 +21,9 @@ public interface ReportDao {
     @Query("SELECT * FROM report")
     Single<List<ReportEntity>> getAll();
 
+    @Query("SELECT * FROM report where page LIKE :pageNumber")
+    Single<List<ReportEntity>> getAll(int pageNumber);
+
     @Query("SELECT * FROM report where id LIKE :id")
     Single<ReportEntity> findBy(String id);
 

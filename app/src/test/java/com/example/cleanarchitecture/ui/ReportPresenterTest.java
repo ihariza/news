@@ -21,6 +21,7 @@ import io.reactivex.rxjava3.core.Single;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 public class ReportPresenterTest {
@@ -41,7 +42,11 @@ public class ReportPresenterTest {
 
     @Before
     public void setUp() {
-        reportPresenter = new ReportPresenter(view, schedulerProvider, getReportUseCase, reportToReportDtoMapper);
+        reportPresenter = new ReportPresenter(
+                view,
+                schedulerProvider,
+                getReportUseCase,
+                reportToReportDtoMapper);
     }
 
     @Test
@@ -57,6 +62,7 @@ public class ReportPresenterTest {
         order.verify(view).showSubtitle(FakeNewsLocalAPI.getFakeReport().getAuthor());
         order.verify(view).showReport(FakeNewsLocalAPI.getFakeReport().getUrl());
 
+        verify(getReportUseCase).getReport(any());
         verifyNoMoreInteractions(view);
     }
 

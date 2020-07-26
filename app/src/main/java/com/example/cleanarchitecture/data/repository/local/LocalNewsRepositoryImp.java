@@ -21,8 +21,8 @@ public class LocalNewsRepositoryImp implements LocalNewsRepository{
     }
 
     @Override
-    public Single<List<ReportEntity>> getNews() {
-        return RxJavaBridge.toV3Single(reportDao.getAll());
+    public Single<List<ReportEntity>> getNews(int pageNumber) {
+        return RxJavaBridge.toV3Single(reportDao.getAll(pageNumber));
     }
 
     @Override
@@ -31,8 +31,8 @@ public class LocalNewsRepositoryImp implements LocalNewsRepository{
     }
 
     @Override
-    public Completable saveAll(List<ReportEntity> news) {
-        return RxJavaBridge.toV3Completable(reportDao.insertAll(news));
+    public Completable save(ReportEntity report) {
+        return RxJavaBridge.toV3Completable(reportDao.insert(report));
     }
 
     @Override

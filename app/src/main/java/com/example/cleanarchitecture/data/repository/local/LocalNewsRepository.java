@@ -9,11 +9,11 @@ import io.reactivex.rxjava3.core.Single;
 
 public interface LocalNewsRepository {
 
-    Single<List<ReportEntity>> getNews();
+    Single<List<ReportEntity>> getNews(int pageNumber);
 
     Single<ReportEntity> getReport(String id);
 
-    Completable saveAll(List<ReportEntity> articles);
+    Completable save(ReportEntity report);
 
     Completable removeAll();
 }

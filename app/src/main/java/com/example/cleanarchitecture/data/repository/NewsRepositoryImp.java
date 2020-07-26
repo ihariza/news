@@ -8,7 +8,6 @@ import com.example.cleanarchitecture.domain.repository.NewsRepository;
 
 import java.util.List;
 
-import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
 
 
@@ -28,27 +27,25 @@ public class NewsRepositoryImp implements NewsRepository {
 
     @Override
     public Single<List<Report>> getNews(int pageNumber) {
-        return remoteNewsRepository.getNews(pageNumber).map(reportEntities -> {
-            if (pageNumber == 1) {
-                localNewsRepository.removeAll().onErrorComplete().subscribe();
-            }
-            localNewsRepository.saveAll(reportEntities).onErrorComplete().subscribe();
-            return reportEntityToReportMapper.map(reportEntities);
-        });
+        return remoteNewsRepository.getNews(pageNumber)
+                .flattenAsObservable(reportEntities -> {
+                    if (pageNumber == 1) {
+                        localNewsRepository.removeAll();
+                    }
+                    return reportEntities;
+                })
+                .flatMapCompletable(report -> {
+                    report.setPage(pageNumber);
+                    return localNewsRepository.save(report);
+                })
+                .andThen(
+                        localNewsRepository.getNews(pageNumber)
+                                .map(reportEntityToReportMapper::map)
+                );
     }
 
     @Override
     public Single<Report> getReport(String id) {
         return localNewsRepository.getReport(id).map(reportEntityToReportMapper::map);
-    }
-
-    @Override
-    public Completable saveAll(List<Report> news) {
-        return localNewsRepository.saveAll(reportEntityToReportMapper.reverseMap(news));
-    }
-
-    @Override
-    public Completable removeAll() {
-        return localNewsRepository.removeAll();
     }
 }

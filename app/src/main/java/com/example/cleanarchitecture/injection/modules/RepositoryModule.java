@@ -38,7 +38,7 @@ public class RepositoryModule {
 
     @Provides
     @PerApplication
-    ReportDao providesArticleDao(AppDatabase appDatabase) {
+    ReportDao providesReportDao(AppDatabase appDatabase) {
         return appDatabase.reportDao();
     }
 

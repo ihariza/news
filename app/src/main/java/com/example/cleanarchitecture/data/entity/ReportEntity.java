@@ -20,6 +20,7 @@ public class ReportEntity {
     private String language;
     private List<String> category = null;
     private String published;
+    private int page;
 
     public String getId() {
         return id;
@@ -93,4 +94,11 @@ public class ReportEntity {
         this.published = published;
     }
 
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
 }
