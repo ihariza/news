@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import hu.akarnokd.rxjava3.bridge.RxJavaBridge;
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
 
@@ -22,21 +21,21 @@ public class LocalNewsRepositoryImp implements LocalNewsRepository{
 
     @Override
     public Single<List<ReportEntity>> getNews(int pageNumber) {
-        return RxJavaBridge.toV3Single(reportDao.getAll(pageNumber));
+        return reportDao.getAll(pageNumber);
     }
 
     @Override
     public Single<ReportEntity> getReport(String id) {
-        return RxJavaBridge.toV3Single(reportDao.findBy(id));
+        return reportDao.findBy(id);
     }
 
     @Override
     public Completable save(ReportEntity report) {
-        return RxJavaBridge.toV3Completable(reportDao.insert(report));
+        return reportDao.insert(report);
     }
 
     @Override
     public Completable removeAll() {
-       return RxJavaBridge.toV3Completable(reportDao.deleteAll());
+       return reportDao.deleteAll();
     }
 }

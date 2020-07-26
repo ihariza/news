@@ -93,7 +93,7 @@ dependencies {
 
   implementation RxDependencies.rxJava
   implementation RxDependencies.rxAndroid
-  implementation RxDependencies.rxBridge
+  implementation RxDependencies.rxAdapter
 
   implementation RetrofitDependencies.retrofit
   implementation RetrofitDependencies.converterGson
@@ -104,7 +104,7 @@ dependencies {
 
   annotationProcessor RoomDependencies.compiler
   implementation RoomDependencies.runtime
-  implementation RoomDependencies.rxjava2
+  implementation RoomDependencies.rxjava3
 
   implementation Gson
 

@@ -9,7 +9,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import hu.akarnokd.rxjava3.bridge.RxJavaBridge;
 import io.reactivex.rxjava3.core.Single;
 
 public class RemoteNewsRepositoryImp implements RemoteNewsRepository {
@@ -26,8 +25,8 @@ public class RemoteNewsRepositoryImp implements RemoteNewsRepository {
 
     @Override
     public Single<List<ReportEntity>> getNews(int pageNumber) {
-        return RxJavaBridge.toV3Single(newsApi.getLatestNews(BuildConfig.NEWS_API,
+        return newsApi.getLatestNews(BuildConfig.NEWS_API,
                 "es", "", pageNumber)
-                .map(newsData -> reportDataToReportEntityMapper.map(newsData.getNews())));
+                .map(newsData -> reportDataToReportEntityMapper.map(newsData.getNews()));
     }
 }

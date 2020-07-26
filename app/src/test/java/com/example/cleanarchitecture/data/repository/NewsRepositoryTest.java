@@ -23,8 +23,6 @@ import static org.mockito.Mockito.verify;
 
 public class NewsRepositoryTest {
 
-    private static final String REPORT_ID = "1";
-
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
@@ -48,23 +46,13 @@ public class NewsRepositoryTest {
     }
 
     @Test
-    public void givenReportEntityListFromLocalApi() {
-        given(localNewsRepository.getNews(1))
-                .willReturn(Single.just(FakeNewsLocalAPI.getFakeReportEntityList()));
-
-        localNewsRepository.getNews(1);
-
-        verify(localNewsRepository).getNews(1);
-    }
-
-    @Test
-    public void givenReportEntityByIdFromLocalApi() {
-        given(localNewsRepository.getReport(REPORT_ID))
+    public void givenReportEntityByIdFromLocalApiShouldReturnsReportEntiity() {
+        given(localNewsRepository.getReport(FakeNewsLocalAPI.REPORT_ID))
                 .willReturn(Single.just(FakeNewsLocalAPI.getFakeReportEntity()));
 
-        newsRepository.getReport(REPORT_ID);
+        newsRepository.getReport(FakeNewsLocalAPI.REPORT_ID);
 
-        verify(localNewsRepository).getReport(REPORT_ID);
+        verify(localNewsRepository).getReport(FakeNewsLocalAPI.REPORT_ID);
     }
 
     @Test

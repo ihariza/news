@@ -7,9 +7,9 @@ ext {
     rxJavaVersion = '3.0.2'
     rxAndroidVersion = '3.0.0'
     daggerVersion = '2.27'
-    retrofitVersion = '2.8.1'
-    okHttpVersion = '3.12.1'
-    roomVersion = '2.2.3'
+    retrofitVersion = '2.9.0'
+    okHttpVersion = '4.8.0'
+    roomVersion = '2.3.0-alpha02'
     gsonVersion = '2.8.0'
 
     glideVersion = '4.11.0'
@@ -50,7 +50,7 @@ ext {
     RxDependencies = [
             rxJava   : buildDependency(reactivePackage, 'rxjava', rxJavaVersion),
             rxAndroid: buildDependency(reactivePackage, 'rxandroid', rxAndroidVersion),
-            rxBridge : buildDependency('com.github.akarnokd', 'rxjava3-bridge', '3.0.0')]
+            rxAdapter : buildDependency('com.github.akarnokd', 'rxjava3-retrofit-adapter', '3.0.0')]
 
     DaggerDependencies = [
             dagger                : buildDependency(daggerPackage, 'dagger', daggerVersion),
@@ -70,7 +70,7 @@ ext {
     RoomDependencies = [
             runtime  : buildDependency(roomPackage, 'room-runtime', roomVersion),
             compiler : buildDependency(roomPackage, 'room-compiler', roomVersion),
-            rxjava2  : buildDependency(roomPackage, 'room-rxjava2', roomVersion)]
+            rxjava3  : buildDependency(roomPackage, 'room-rxjava3', roomVersion)]
 
     Gson = buildDependency(gsonPackage, 'gson', gsonVersion)
 

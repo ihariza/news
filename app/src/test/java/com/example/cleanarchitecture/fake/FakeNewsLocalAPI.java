@@ -10,6 +10,8 @@ import java.util.List;
 
 public class FakeNewsLocalAPI {
 
+    public static final String REPORT_ID = "1";
+
     private static final String JSON_RESPONSE_REPORT = "{\n" +
             "         author: \"straitstimes\",\n" +
             "         category: [\n" +
