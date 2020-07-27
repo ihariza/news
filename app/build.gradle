@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: "org.sonarqube"
+apply from: '../gradle-scripts/jacoco.gradle'
 
 android {
   compileSdkVersion Android.compileSdkVersion
@@ -78,6 +80,16 @@ android {
   }
 }
 
+buildscript {
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7.1"
+    classpath "org.jacoco:org.jacoco.core:0.8.5"
+  }
+}
+
 dependencies {
 
   implementation AndroidXdependencies.appCompat
@@ -121,3 +133,22 @@ dependencies {
 
 }
 
+sonarqube {
+  properties {
+    property "sonar.projectName", "Clean - Android"
+    property "sonar.projectKey", "$Android.applicationId"
+    property "sonar.tests", ["src/test/java"]
+    property "sonar.test.inclusions", "**/*Test*/**"
+    property "sonar.sourceEncoding", "UTF-8"
+    property "sonar.sources", "src/main/java"
+    property "sonar.exclusions", '**/*Test*/**,' +
+            '*.json,' +
+            '**/*test*/**,' +
+            '**/.gradle/**,' +
+            '**/R.class'
+    property "sonar.java.coveragePlugin", "jacoco"
+    property "sonar.jacoco.reportPath", "**/jacoco/*.exec"
+  }
+}
+
+tasks.sonarqube.dependsOn ":app:testDevDebugUnitTestCoverage"
