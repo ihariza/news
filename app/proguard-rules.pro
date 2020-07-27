@@ -16,4 +16,4 @@
    public *;
 }
 
--keep class com.example.cleanarchitecture.data.api.datasource.** {*;}
+-keep class com.ihariza.news.data.api.datasource.** {*;}
