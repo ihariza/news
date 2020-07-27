@@ -1,6 +1,7 @@
 package com.ihariza.news.data.repository;
 
 import com.ihariza.news.data.database.ReportDao;
+import com.ihariza.news.data.entity.ReportEntity;
 import com.ihariza.news.data.repository.local.LocalNewsRepositoryImp;
 import com.ihariza.news.fake.FakeNewsLocalAPI;
 
@@ -11,9 +12,11 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 
 public class LocalNewsRepositoryTest {
@@ -50,5 +53,25 @@ public class LocalNewsRepositoryTest {
         localNewsRepository.getReport(FakeNewsLocalAPI.REPORT_ID);
 
         verify(reportDao).findBy(FakeNewsLocalAPI.REPORT_ID);
+    }
+
+    @Test
+    public void savedShouldInsertReportEntityInDb() {
+        given(localNewsRepository.save(any(ReportEntity.class)))
+                .willReturn(Completable.complete());
+
+        localNewsRepository.save(any(ReportEntity.class));
+
+        verify(reportDao).insert(any(ReportEntity.class));
+    }
+
+    @Test
+    public void removeAllShouldRemoveAllReportEntitiesFromDb() {
+        given(localNewsRepository.removeAll())
+                .willReturn(Completable.complete());
+
+        localNewsRepository.removeAll();
+
+        verify(reportDao).deleteAll();
     }
 }
