@@ -1,5 +1,6 @@
 package com.example.cleanarchitecture.injection.modules;
 
+import com.example.cleanarchitecture.BuildConfig;
 import com.example.cleanarchitecture.data.api.NewsApi;
 import com.example.cleanarchitecture.injection.scopes.PerApplication;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
@@ -7,11 +8,14 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 import dagger.Module;
 import dagger.Provides;
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
+import okhttp3.CertificatePinner;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -38,6 +42,21 @@ public class NetworkModule {
         clientBuilder.connectTimeout(10, TimeUnit.SECONDS);
         clientBuilder.addInterceptor(httpLoggingInterceptor);
         clientBuilder.addInterceptor(new StethoInterceptor());
+
+        URL baseURL = null;
+        try {
+            baseURL = new URL(baseUrl);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        if (baseURL != null) {
+            CertificatePinner certificatePinner = new CertificatePinner.Builder()
+                    .add(baseURL.getHost(),
+                            "sha256/" + BuildConfig.SPKI)
+                    .build();
+            clientBuilder.certificatePinner(certificatePinner);
+        }
 
         return clientBuilder.build();
     }
