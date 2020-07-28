@@ -29,16 +29,16 @@ public class ReportDataToReportEntityMapper implements Mapper<ReportData, Report
 
     @Override
     public ReportData reverseMap(ReportEntity value) {
-        final ReportData report = new ReportData();
-        report.setId(value.getId());
-        report.setTitle(value.getTitle());
-        report.setDescription(value.getDescription());
-        report.setUrl(value.getUrl());
-        report.setAuthor(value.getAuthor());
-        report.setImage(value.getImage());
-        report.setLanguage(value.getLanguage());
-        report.setCategory(value.getCategory());
-        report.setPublished(value.getPublished());
-        return report;
+        final ReportData reportData = new ReportData();
+        reportData.setId(value.getId());
+        reportData.setTitle(value.getTitle());
+        reportData.setDescription(value.getDescription());
+        reportData.setUrl(value.getUrl());
+        reportData.setAuthor(value.getAuthor());
+        reportData.setImage(value.getImage());
+        reportData.setLanguage(value.getLanguage());
+        reportData.setCategory(value.getCategory());
+        reportData.setPublished(value.getPublished());
+        return reportData;
     }
 }
