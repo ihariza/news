@@ -22,6 +22,10 @@ import java.util.Collections;
 import io.reactivex.rxjava3.core.Single;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 public class NewsPresenterTest {
@@ -47,7 +51,8 @@ public class NewsPresenterTest {
 
     @Test
     public void showNewsWhenRetrieveNewsSuccessfully() {
-        given(getNewsUseCase.getNews(1)).willReturn(Single.just(FakeNewsLocalAPI.getFakeReportList()));
+        given(getNewsUseCase.getNews(1))
+                .willReturn(Single.just(FakeNewsLocalAPI.getFakeReportList()));
 
         newsPresenter.start();
 
@@ -61,7 +66,8 @@ public class NewsPresenterTest {
 
     @Test
     public void showErrorWhenRetrieveNewsFails() {
-        given(getNewsUseCase.getNews(1)).willReturn(Single.error(new Throwable("Error getting news")));
+        given(getNewsUseCase.getNews(1))
+                .willReturn(Single.error(new Throwable("Error getting news")));
 
         newsPresenter.start();
 
@@ -70,6 +76,24 @@ public class NewsPresenterTest {
         order.verify(view).showError("Error getting news");
         order.verify(view).hideLoading();
 
+        verifyNoMoreInteractions(view);
+    }
+
+    @Test
+    public void refreshNewsShouldReturnsReportList() {
+        given(getNewsUseCase.getNews(anyInt()))
+                .willReturn(Single.just(FakeNewsLocalAPI.getFakeReportList()));
+
+        newsPresenter.refreshNews();
+
+        InOrder order = Mockito.inOrder(view);
+        order.verify(view).showRefreshedNews(Collections.emptyList());
+    }
+
+    @Test
+    public void openReportShouldShowReportView() {
+        newsPresenter.openReport(FakeNewsLocalAPI.getFakeReportDto());
+        verify(view).openReport(FakeNewsLocalAPI.FAKE_REPORT_ID);
         verifyNoMoreInteractions(view);
     }
 }
