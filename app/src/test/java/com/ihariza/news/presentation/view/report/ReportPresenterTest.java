@@ -93,6 +93,12 @@ public class ReportPresenterTest {
     }
 
     @Test
+    public void shareReportNullShouldNoMoreInteractions() {
+        reportPresenter.shareReport();
+        verifyNoMoreInteractions(view);
+    }
+
+    @Test
     public void openReportShouldShowReportView() {
         Whitebox.setInternalState(reportPresenter,
                 "report", FakeNewsLocalAPI.getFakeReportDto());
@@ -100,6 +106,12 @@ public class ReportPresenterTest {
         reportPresenter.openReport();
 
         verify(view).showOpenReport(FakeNewsLocalAPI.FAKE_REPORT_URL);
+        verifyNoMoreInteractions(view);
+    }
+
+    @Test
+    public void openReportNullShouldNoMoreInteractions() {
+        reportPresenter.openReport();
         verifyNoMoreInteractions(view);
     }
 }
