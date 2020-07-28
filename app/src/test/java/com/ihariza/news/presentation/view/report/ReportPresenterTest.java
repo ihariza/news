@@ -114,4 +114,14 @@ public class ReportPresenterTest {
         reportPresenter.openReport();
         verifyNoMoreInteractions(view);
     }
+
+    @Test
+    public void openReportWithNoUrlShouldNoMoreInteractions() {
+        Whitebox.setInternalState(reportPresenter,
+                "report", FakeNewsLocalAPI.getFakeReportWithNoUrlDto());
+
+        reportPresenter.openReport();
+
+        verifyNoMoreInteractions(view);
+    }
 }

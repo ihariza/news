@@ -113,6 +113,15 @@ public class FakeNewsLocalAPI {
         return reportDto;
     }
 
+    public static ReportDto getFakeReportWithNoUrlDto() {
+        ReportDto reportDto = new ReportDto();
+        reportDto.setId(FAKE_REPORT_ID);
+        reportDto.setTitle(FAKE_REPORT_TITLE);
+        reportDto.setDescription(FAKE_REPORT_DESCRIPTION);
+        reportDto.setImage(FAKE_REPORT_IMAGE_URL);
+        return reportDto;
+    }
+
     public static List<ReportDto> getFakeReportDtoList() {
         List<ReportDto> reportDtoList = new ArrayList<>();
         reportDtoList.add(getFakeReportDto());
