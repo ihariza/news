@@ -8,11 +8,11 @@ import dagger.Binds;
 import dagger.Module;
 
 @Module
-abstract class MainActivityModule {
+interface MainActivityModule {
     @Binds
-    abstract MainContract.View bindMainActivity(MainActivity activity);
+    MainContract.View bindMainActivity(MainActivity activity);
 
     @Binds
-    abstract MainContract.Presenter bindMainPresenter(MainPresenter presenter);
+    MainContract.Presenter bindMainPresenter(MainPresenter presenter);
 
 }

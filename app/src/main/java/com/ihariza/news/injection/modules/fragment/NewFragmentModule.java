@@ -8,11 +8,11 @@ import dagger.Binds;
 import dagger.Module;
 
 @Module
-abstract class NewFragmentModule {
+interface NewFragmentModule {
     @Binds
-    abstract NewsContract.View bindNewsFragment(NewsFragment fragment);
+    NewsContract.View bindNewsFragment(NewsFragment fragment);
 
     @Binds
-    abstract NewsContract.Presenter bindNewsPresenter(NewsPresenter presenter);
+    NewsContract.Presenter bindNewsPresenter(NewsPresenter presenter);
     
 }

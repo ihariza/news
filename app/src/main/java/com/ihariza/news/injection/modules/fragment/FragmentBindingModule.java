@@ -9,14 +9,14 @@ import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 
 @Module
-public abstract class FragmentBindingModule {
+public interface FragmentBindingModule {
 
     @PerFragment
     @ContributesAndroidInjector(modules = {NewFragmentModule.class, ManagersModule.class})
-    abstract NewsFragment bindNewsFragment();
+    NewsFragment bindNewsFragment();
 
     @PerFragment
     @ContributesAndroidInjector(modules = {ReportFragmentModule.class, ManagersModule.class})
-    abstract ReportFragment bindReportFragment();
+    ReportFragment bindReportFragment();
 
 }

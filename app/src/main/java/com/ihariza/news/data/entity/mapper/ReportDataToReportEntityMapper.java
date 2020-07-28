@@ -5,7 +5,7 @@ import com.ihariza.news.data.entity.ReportEntity;
 
 import javax.inject.Inject;
 
-public class ReportDataToReportEntityMapper extends Mapper<ReportData, ReportEntity> {
+public class ReportDataToReportEntityMapper implements Mapper<ReportData, ReportEntity> {
 
     @Inject
     public ReportDataToReportEntityMapper() {

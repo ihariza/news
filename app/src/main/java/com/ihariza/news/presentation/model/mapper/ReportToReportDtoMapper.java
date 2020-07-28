@@ -6,10 +6,11 @@ import com.ihariza.news.presentation.model.ReportDto;
 
 import javax.inject.Inject;
 
-public class ReportToReportDtoMapper extends Mapper<Report, ReportDto> {
+public class ReportToReportDtoMapper implements Mapper<Report, ReportDto> {
 
     @Inject
     public ReportToReportDtoMapper() {
+        // constructor for injection
     }
 
     @Override

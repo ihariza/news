@@ -7,10 +7,10 @@ import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 
 @Module
-public abstract class ActivityBindingModule {
+public interface ActivityBindingModule {
 
     @PerActivity
     @ContributesAndroidInjector(modules = {MainActivityModule.class})
-    abstract MainActivity bindMainActivity();
+    MainActivity bindMainActivity();
 
 }
