@@ -27,6 +27,8 @@ sonarqube {
                     "**/BuildConfig.*," +
                     "**/*Component*.*," +
                     "**/*BR*.*," +
+                    "**/*Dto*.*," +
+                    "**/*Database.*," +
                     "**/Manifest*.*," +
                     "**/*Companion*.*," +
                     "**/*Module.*," +

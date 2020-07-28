@@ -1,6 +1,5 @@
 package com.ihariza.news.presentation.view.report;
 
-import com.ihariza.news.data.entity.ReportEntity;
 import com.ihariza.news.domain.usecase.GetReportUseCase;
 import com.ihariza.news.fake.FakeNewsLocalAPI;
 import com.ihariza.news.presentation.model.ReportDto;

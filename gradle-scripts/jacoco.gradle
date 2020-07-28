@@ -49,6 +49,8 @@ project.afterEvaluate {
               '**/BuildConfig.*',
               '**/*Component*.*',
               '**/*BR*.*',
+              '**/*Dto*.*',
+              '**/*Database*.*',
               '**/Manifest*.*',
               '**/*$Lambda$*.*',
               '**/*Companion*.*',
