@@ -7,6 +7,8 @@ sonarqube {
     property "sonar.projectVersion", "${project.version}"
     property "sonar.sourceEncoding", "UTF-8"
     property "sonar.java.coveragePlugin", "jacoco"
+    property "sonar.sources", "src/main/java"
+    property "sonar.exclusions", "**/*Generated.java"
     // taken from `jacoco.gradle`
     property "sonar.coverage.exclusions",
                     "**/test/**," +
@@ -20,7 +22,8 @@ sonarqube {
                     "**/*Dto*.*,**/android/databinding/*," +
                     "**/androidx/databinding/*," +
                     "**/di/module/*," +
-                    "**/*MapperImpl*.*," +
+                    "**/*Mapper*.*," +
+                    "**/*Constant*.*," +
                     "**/BuildConfig.*," +
                     "**/*Component*.*," +
                     "**/*BR*.*," +
@@ -32,9 +35,7 @@ sonarqube {
                     "**/*Extensions*.*," +
                     "**/InputMethodManagerLeaks.*," +
                     "**/*_Factory*.*," +
-                    "**/*_Provide*Factory*.*," +
-                    "**/*Model," +
-                    "**/*Entity"
+                    "**/*_Provide*Factory*.*,"
   }
 }
 

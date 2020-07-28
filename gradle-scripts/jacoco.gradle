@@ -42,7 +42,8 @@ project.afterEvaluate {
               '**/android/databinding/*',
               '**/androidx/databinding/*',
               '**/di/module/*',
-              '**/*MapperImpl*.*',
+              '**/*Mapper*.*',
+              '**/*Constant*.*',
               '**/*$ViewInjector*.*',
               '**/*$ViewBinder*.*',
               '**/BuildConfig.*',
@@ -57,8 +58,6 @@ project.afterEvaluate {
               '**/*_Factory*.*',
               '**/*_Provide*Factory*.*',
               '**/*Extensions*.*',
-              '**/*Model*.*',
-              '**/*Entity*.*',
               '**/*$Result.*', /* filtering `sealed` and `data` classes */
               '**/*$Result$*.*'/* filtering `sealed` and `data` classes */
       ]
