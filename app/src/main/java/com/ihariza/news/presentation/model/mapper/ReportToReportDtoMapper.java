@@ -15,17 +15,17 @@ public class ReportToReportDtoMapper implements Mapper<Report, ReportDto> {
 
     @Override
     public ReportDto map(Report value) {
-        final ReportDto report = new ReportDto();
-        report.setId(value.getId());
-        report.setTitle(value.getTitle());
-        report.setDescription(value.getDescription());
-        report.setUrl(value.getUrl());
-        report.setAuthor(value.getAuthor());
-        report.setImage(value.getImage());
-        report.setLanguage(value.getLanguage());
-        report.setCategory(value.getCategory());
-        report.setPublished(value.getPublished());
-        return report;
+        final ReportDto reportDto = new ReportDto();
+        reportDto.setId(value.getId());
+        reportDto.setTitle(value.getTitle());
+        reportDto.setDescription(value.getDescription());
+        reportDto.setUrl(value.getUrl());
+        reportDto.setAuthor(value.getAuthor());
+        reportDto.setImage(value.getImage());
+        reportDto.setLanguage(value.getLanguage());
+        reportDto.setCategory(value.getCategory());
+        reportDto.setPublished(value.getPublished());
+        return reportDto;
     }
 
     @Override
