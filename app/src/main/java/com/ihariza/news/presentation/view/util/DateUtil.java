@@ -8,6 +8,10 @@ import timber.log.Timber;
 
 public class DateUtil {
 
+    private DateUtil() {
+        throw new IllegalStateException("Utility class");
+    }
+
     /**
      * Transform timestamp into date format
      *

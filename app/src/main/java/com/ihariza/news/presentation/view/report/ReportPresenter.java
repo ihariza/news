@@ -40,8 +40,8 @@ public class ReportPresenter extends BasePresenter<ReportContract.View>
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .map(reportToReportDtoMapper::map)
-                .subscribe(report -> {
-                            this.report = report;
+                .subscribe(reportResult -> {
+                            this.report = reportResult;
                             view.showTitle(report.getTitle());
                             view.showSubtitle(report.getAuthor());
                             view.showReport(report.getUrl());
