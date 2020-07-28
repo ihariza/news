@@ -1,4 +1,4 @@
-package com.ihariza.news.data.entity.mapper;
+package com.ihariza.news.domain.model.mapper;
 
 import java.util.ArrayList;
 import java.util.List;

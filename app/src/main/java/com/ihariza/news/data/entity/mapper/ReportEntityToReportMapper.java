@@ -2,6 +2,7 @@ package com.ihariza.news.data.entity.mapper;
 
 import com.ihariza.news.data.entity.ReportEntity;
 import com.ihariza.news.domain.model.Report;
+import com.ihariza.news.domain.model.mapper.Mapper;
 
 import javax.inject.Inject;
 

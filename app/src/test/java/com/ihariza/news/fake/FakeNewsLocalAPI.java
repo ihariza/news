@@ -67,7 +67,7 @@ public class FakeNewsLocalAPI {
     public final static String FAKE_REPORT_TITLE = "Report title";
     public final static String FAKE_REPORT_DESCRIPTION = "Report description";
     private final static String FAKE_REPORT_IMAGE_URL = "http://placeimg.com/640/360/any";
-    private final static String FAKE_REPORT_URL = "http://placeimg.com/";
+    public final static String FAKE_REPORT_URL = "http://placeimg.com/";
     private final static int FAKE_PAGE = 1;
 
     public static ReportEntity getFakeReportEntity() {

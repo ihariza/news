@@ -1,6 +1,6 @@
 package com.ihariza.news.presentation.model.mapper;
 
-import com.ihariza.news.data.entity.mapper.Mapper;
+import com.ihariza.news.domain.model.mapper.Mapper;
 import com.ihariza.news.domain.model.Report;
 import com.ihariza.news.presentation.model.ReportDto;
 

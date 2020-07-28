@@ -1,10 +1,10 @@
 package com.ihariza.news.presentation.view.report;
 
+import com.ihariza.news.data.entity.ReportEntity;
 import com.ihariza.news.domain.usecase.GetReportUseCase;
 import com.ihariza.news.fake.FakeNewsLocalAPI;
+import com.ihariza.news.presentation.model.ReportDto;
 import com.ihariza.news.presentation.model.mapper.ReportToReportDtoMapper;
-import com.ihariza.news.presentation.view.report.ReportContract;
-import com.ihariza.news.presentation.view.report.ReportPresenter;
 import com.ihariza.news.scheduler.SchedulerProviderImp;
 
 import org.junit.Before;
@@ -14,6 +14,7 @@ import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.internal.util.reflection.Whitebox;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
@@ -77,6 +78,28 @@ public class ReportPresenterTest {
         InOrder order = Mockito.inOrder(view);
         order.verify(view).showError("Error getting report");
 
+        verifyNoMoreInteractions(view);
+    }
+
+    @Test
+    public void shareReportShouldShowShareReport() {
+        ReportDto reportDto = FakeNewsLocalAPI.getFakeReportDto();
+        Whitebox.setInternalState(reportPresenter, "report", reportDto);
+
+        reportPresenter.shareReport();
+
+        verify(view).showShareReport(reportDto);
+        verifyNoMoreInteractions(view);
+    }
+
+    @Test
+    public void openReportShouldShowReportView() {
+        Whitebox.setInternalState(reportPresenter,
+                "report", FakeNewsLocalAPI.getFakeReportDto());
+
+        reportPresenter.openReport();
+
+        verify(view).showOpenReport(FakeNewsLocalAPI.FAKE_REPORT_URL);
         verifyNoMoreInteractions(view);
     }
 }
