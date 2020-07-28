@@ -1,28 +1,17 @@
 package com.ihariza.news.data.api.datasource;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class ReportData {
 
-    @SerializedName("id")
     private String id;
-    @SerializedName("title")
     private String title;
-    @SerializedName("description")
     private String description;
-    @SerializedName("url")
     private String url;
-    @SerializedName("author")
     private String author;
-    @SerializedName("image")
     private String image;
-    @SerializedName("language")
     private String language;
-    @SerializedName("category")
     private List<String> category = null;
-    @SerializedName("published")
     private String published;
 
     public String getId() {

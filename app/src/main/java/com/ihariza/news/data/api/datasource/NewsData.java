@@ -1,17 +1,12 @@
 package com.ihariza.news.data.api.datasource;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class NewsData {
 
-    @SerializedName("status")
     private String status;
-    @SerializedName("totalResults")
     private Integer totalResults;
-    @SerializedName("news")
     private List<ReportData> news = new ArrayList<>();
 
     public String getStatus() {

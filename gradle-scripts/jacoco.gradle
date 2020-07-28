@@ -37,8 +37,8 @@ project.afterEvaluate {
               '**/BuildConfig.*',
               '**/Manifest*.*',
               '**/*Test*.*',
-              '**/com/example/databinding/*',
-              '**/com/example/generated/callback/*',
+              '**/databinding/*',
+              '**/generated/callback/*',
               '**/android/databinding/*',
               '**/androidx/databinding/*',
               '**/di/module/*',
@@ -57,6 +57,8 @@ project.afterEvaluate {
               '**/*_Factory*.*',
               '**/*_Provide*Factory*.*',
               '**/*Extensions*.*',
+              '**/*Model*.*',
+              '**/*Entity*.*',
               '**/*$Result.*', /* filtering `sealed` and `data` classes */
               '**/*$Result$*.*'/* filtering `sealed` and `data` classes */
       ]

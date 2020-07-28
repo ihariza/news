@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 @Entity(tableName = "report")
@@ -22,6 +24,7 @@ public class ReportEntity {
     private String published;
     private int page;
 
+    @NotNull
     public String getId() {
         return id;
     }
