@@ -20,6 +20,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import timber.log.Timber;
 
 @Module
 public class NetworkModule {
@@ -47,7 +48,7 @@ public class NetworkModule {
         try {
             baseURL = new URL(baseUrl);
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            Timber.d(e);
         }
 
         if (baseURL != null) {

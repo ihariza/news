@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import timber.log.Timber;
+
 public class DateUtil {
 
     /**
@@ -21,7 +23,7 @@ public class DateUtil {
             long currentTime = currentSdf.parse(timestamp).getTime();
             newDate = newSdf.format(currentTime);
         } catch (ParseException e) {
-            e.printStackTrace();
+            Timber.d(e);
         }
         return newDate;
     }

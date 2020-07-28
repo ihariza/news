@@ -14,6 +14,8 @@ ext {
 
     glideVersion = '4.11.0'
 
+    timberVersion = '4.7.1'
+
     stethoVersion = '1.5.1'
 
     junitVersion = '4.12'
@@ -32,6 +34,8 @@ ext {
 
     glidePackage = 'com.github.bumptech.glide'
 
+    timberPackage = 'com.jakewharton.timber'
+    
     stethoPackage = 'com.facebook.stetho'
 
     junitPackage = 'junit'
@@ -78,6 +82,8 @@ ext {
             core                : buildDependency(glidePackage, 'glide', glideVersion),
             compiler            : buildDependency(glidePackage, 'compiler', glideVersion),
             recyclerIntegration : buildDependency(glidePackage, 'recyclerview-integration', glideVersion)]
+
+    Timber = buildDependency(timberPackage, 'timber', timberVersion)
 
     StethoDependencies = [
             core   : buildDependency(stethoPackage, 'stetho', stethoVersion),
