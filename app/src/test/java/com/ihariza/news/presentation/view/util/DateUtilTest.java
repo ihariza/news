@@ -8,6 +8,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class DateUtilTest {
@@ -26,14 +28,14 @@ public class DateUtilTest {
     }
 
     @Test
-    public void givenyyyyMMddTHHmmss0000FormatShouldReturnsddMMyyyyHHmmhFormat() {
+    public void givenServerFormatShouldReturnsPresentationFormat() {
         String result = DateUtil.formatTimestampIntoDate("2018-07-11 22:49:24 +0000");
-        assert(result.equals("11-07-2018 22:49h"));
+        assertEquals("11-07-2018 22:49h", result);
     }
 
     @Test
     public void givenBadFormatShouldReturnsNull() {
         String result = DateUtil.formatTimestampIntoDate("2018-07-11 22:49:24");
-        assert(result == null);
+        assertNull(result);
     }
 }
