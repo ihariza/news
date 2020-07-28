@@ -9,6 +9,7 @@ public class ReportEntityToReportMapper extends Mapper<ReportEntity, Report> {
 
     @Inject
     public ReportEntityToReportMapper() {
+        // needed for injection
     }
 
     @Override
