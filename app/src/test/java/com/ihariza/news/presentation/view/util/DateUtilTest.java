@@ -6,11 +6,9 @@ import org.junit.rules.ExpectedException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 
 public class DateUtilTest {
 
@@ -22,7 +20,6 @@ public class DateUtilTest {
             throws NoSuchMethodException, IllegalAccessException,
             InvocationTargetException, InstantiationException {
         Constructor<DateUtil> constructor = DateUtil.class.getDeclaredConstructor();
-        assertTrue(Modifier.isPrivate(constructor.getModifiers()));
         constructor.setAccessible(true);
         constructor.newInstance();
     }
