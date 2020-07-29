@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply from: '../gradle-scripts/config.gradle'
+apply from: '../gradle-scripts/dependencies.gradle'
 apply from: '../gradle-scripts/sonar.gradle'
 apply from: '../gradle-scripts/jacoco.gradle'
 
@@ -55,6 +57,10 @@ android {
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
+  }
+
+  testOptions {
+    unitTests.includeAndroidResources = true
   }
 
   lintOptions {
@@ -132,8 +138,10 @@ dependencies {
 
   testImplementation TestingDependencies.junit
   testImplementation TestingDependencies.mockito
+  testImplementation TestingDependencies.core
   testImplementation TestingDependencies.hamcrest
 
+  debugImplementation TestingDependencies.fragment
 }
 
 subprojects {
