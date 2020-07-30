@@ -20,8 +20,10 @@ ext {
 
     junitVersion = '4.12'
     mockitoVersion = '1.10.19'
-    coreVersion = '1.0.0'
+    testVersion = '1.1.1'
+    rulesVersion = '1.2.0'
     hamcrestVersion = '1.1'
+    espressoVersion = '3.2.0'
     fragmentVersion = '1.2.5'
 
     // Package
@@ -40,9 +42,11 @@ ext {
     stethoPackage = 'com.facebook.stetho'
 
     junitPackage = 'junit'
+    extPackage = 'androidx.test.ext'
+    testPackage = 'androidx.test'
     mockitoPackage = 'org.mockito'
-    corePackage = 'androidx.test'
     hamcrestPackage = 'org.hamcrest'
+    espressoPackage = 'androidx.test.espresso'
     fragmentPackage = 'androidx.fragment'
 
 
@@ -94,11 +98,16 @@ ext {
             okhttp : buildDependency(stethoPackage, 'stetho-okhttp3', stethoVersion)]
 
     TestingDependencies = [
-            junit      : buildDependency(junitPackage, 'junit', junitVersion),
-            mockito    : buildDependency(mockitoPackage, 'mockito-core', mockitoVersion),
-            core       : buildDependency(corePackage, 'core', coreVersion),
-            hamcrest   : buildDependency(hamcrestPackage, 'hamcrest-library', hamcrestVersion),
-            fragment   : buildDependency(fragmentPackage, 'fragment-testing', fragmentVersion)]
+            junit            : buildDependency(junitPackage, 'junit', junitVersion),
+            ext              : buildDependency(extPackage, 'junit', testVersion),
+            core             : buildDependency(testPackage, 'core', testVersion),
+            rules            : buildDependency(testPackage, 'rules', rulesVersion),
+            mockito          : buildDependency(mockitoPackage, 'mockito-core', mockitoVersion),
+            hamcrest         : buildDependency(hamcrestPackage, 'hamcrest-library', hamcrestVersion),
+            espresso_core    : buildDependency(espressoPackage, 'espresso-core', espressoVersion),
+            espresso_contrib : buildDependency(espressoPackage, 'espresso-contrib', espressoVersion),
+            espresso_idling  : buildDependency(espressoPackage, 'espresso-idling-resource', espressoVersion),
+            fragment         : buildDependency(fragmentPackage, 'fragment-testing', fragmentVersion)]
 }
 
 static String buildDependency(String pack, String dependency, String version) {

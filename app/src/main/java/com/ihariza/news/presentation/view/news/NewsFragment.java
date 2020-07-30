@@ -10,14 +10,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader;
+import com.google.android.material.snackbar.Snackbar;
 import com.ihariza.news.R;
 import com.ihariza.news.databinding.FragmentNewsBinding;
 import com.ihariza.news.presentation.model.ReportDto;
 import com.ihariza.news.presentation.view.base.BaseFragment;
 import com.ihariza.news.presentation.view.main.MainRouterContract;
 import com.ihariza.news.presentation.view.util.Constants;
+import com.ihariza.news.presentation.view.util.RequestCountingIdlingResource;
 import com.ihariza.news.presentation.view.widget.PaginationListener;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -62,6 +63,7 @@ public class NewsFragment extends BaseFragment
         initializeSwipeRefresh();
         initializeRecyclerView();
         if (savedInstanceState == null && adapter.getItemCount() == 0) {
+            RequestCountingIdlingResource.increment();
             presenter.start();
         }
     }
@@ -86,11 +88,13 @@ public class NewsFragment extends BaseFragment
 
     @Override
     public void showNews(List<ReportDto> news) {
+        RequestCountingIdlingResource.decrement();
         adapter.addAll(news);
     }
 
     @Override
     public void showRefreshedNews(List<ReportDto> news) {
+        RequestCountingIdlingResource.decrement();
         adapter.refresh(news);
     }
 
