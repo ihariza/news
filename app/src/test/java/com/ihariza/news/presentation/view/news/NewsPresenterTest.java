@@ -3,9 +3,6 @@ package com.ihariza.news.presentation.view.news;
 import com.ihariza.news.domain.usecase.GetNewsUseCase;
 import com.ihariza.news.fake.FakeNewsLocalAPI;
 import com.ihariza.news.presentation.model.mapper.ReportToReportDtoMapper;
-import com.ihariza.news.presentation.view.news.NewsContract;
-import com.ihariza.news.presentation.view.news.NewsPresenter;
-import com.ihariza.news.presentation.view.util.Constants;
 import com.ihariza.news.scheduler.SchedulerProviderImp;
 
 import org.junit.Before;
@@ -25,10 +22,7 @@ import io.reactivex.rxjava3.core.Single;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
@@ -107,6 +101,7 @@ public class NewsPresenterTest {
                 .willReturn(Single.just(FakeNewsLocalAPI.getFakeReportList()));
 
         newsPresenter.start();
+
         assertThat(newsPresenter.isNewsLastPage(), is(true));
     }
 }
