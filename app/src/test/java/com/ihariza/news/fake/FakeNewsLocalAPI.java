@@ -97,9 +97,11 @@ public class FakeNewsLocalAPI {
         return report;
     }
 
-    public static List<Report> getFakeReportList() {
+    public static List<Report> getFakeReportList(int itemSize) {
         List<Report> news = new ArrayList<>();
-        news.add(getFakeReport());
+        for(int i = 0; i < itemSize; i++) {
+            news.add(getFakeReport());
+        }
         return news;
     }
 
@@ -122,9 +124,11 @@ public class FakeNewsLocalAPI {
         return reportDto;
     }
 
-    public static List<ReportDto> getFakeReportDtoList() {
+    public static List<ReportDto> getFakeReportDtoList(int itemSize) {
         List<ReportDto> reportDtoList = new ArrayList<>();
-        reportDtoList.add(getFakeReportDto());
+        for(int i = 0; i < itemSize; i++) {
+            reportDtoList.add(getFakeReportDto());
+        }
         return reportDtoList;
     }
 

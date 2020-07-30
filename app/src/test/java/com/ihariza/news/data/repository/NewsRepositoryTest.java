@@ -5,6 +5,7 @@ import com.ihariza.news.data.repository.local.LocalNewsRepository;
 import com.ihariza.news.data.repository.remote.RemoteNewsRepository;
 import com.ihariza.news.domain.repository.NewsRepository;
 import com.ihariza.news.fake.FakeNewsLocalAPI;
+import com.ihariza.news.presentation.view.util.Constants;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -70,10 +71,9 @@ public class NewsRepositoryTest {
                 .test()
                 .assertNoErrors()
                 .assertValue(reportList ->
-                        reportList.get(0).getId()
-                                .equals(FakeNewsLocalAPI.getFakeReportList().get(0).getId()))
-                .assertValue(reportList ->
-                        reportList.size() == FakeNewsLocalAPI.getFakeReportList().size())
+                        reportList.get(0).getId().equals(
+                                        FakeNewsLocalAPI.getFakeReportList(
+                                                Constants.NEWS_PAGE_SIZE).get(0).getId()))
                 .dispose();
 
         verify(localNewsRepository).getNews(1);

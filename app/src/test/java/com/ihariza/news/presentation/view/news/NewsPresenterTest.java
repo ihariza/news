@@ -3,6 +3,7 @@ package com.ihariza.news.presentation.view.news;
 import com.ihariza.news.domain.usecase.GetNewsUseCase;
 import com.ihariza.news.fake.FakeNewsLocalAPI;
 import com.ihariza.news.presentation.model.mapper.ReportToReportDtoMapper;
+import com.ihariza.news.presentation.view.util.Constants;
 import com.ihariza.news.scheduler.SchedulerProviderImp;
 
 import org.junit.Before;
@@ -19,8 +20,8 @@ import java.util.Collections;
 
 import io.reactivex.rxjava3.core.Single;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.verify;
@@ -37,7 +38,7 @@ public class NewsPresenterTest {
     private GetNewsUseCase getNewsUseCase;
     @InjectMocks
     private SchedulerProviderImp schedulerProvider;
-    @Mock
+    @InjectMocks
     private ReportToReportDtoMapper reportToReportDtoMapper;
 
     private NewsPresenter newsPresenter;
@@ -50,7 +51,7 @@ public class NewsPresenterTest {
     @Test
     public void showNewsWhenRetrieveNewsSuccessfully() {
         given(getNewsUseCase.getNews(1))
-                .willReturn(Single.just(FakeNewsLocalAPI.getFakeReportList()));
+                .willReturn(Single.just(Collections.emptyList()));
 
         newsPresenter.start();
 
@@ -80,7 +81,7 @@ public class NewsPresenterTest {
     @Test
     public void refreshNewsShouldReturnsReportList() {
         given(getNewsUseCase.getNews(anyInt()))
-                .willReturn(Single.just(FakeNewsLocalAPI.getFakeReportList()));
+                .willReturn(Single.just(Collections.emptyList()));
 
         newsPresenter.refreshNews();
 
@@ -98,10 +99,21 @@ public class NewsPresenterTest {
     @Test
     public void whenGetNewsIsLastPageShouldReturnTrue() {
         given(getNewsUseCase.getNews(1))
-                .willReturn(Single.just(FakeNewsLocalAPI.getFakeReportList()));
+                .willReturn(Single.just(FakeNewsLocalAPI.getFakeReportList(1)));
 
         newsPresenter.start();
 
-        assertThat(newsPresenter.isNewsLastPage(), is(true));
+        assertTrue(newsPresenter.isNewsLastPage());
+    }
+
+    @Test
+    public void whenGetNewsIsNotLastPageShouldReturnFalse() {
+        given(getNewsUseCase.getNews(1))
+                .willReturn(Single.just(
+                        FakeNewsLocalAPI.getFakeReportList(Constants.NEWS_PAGE_SIZE)));
+
+        newsPresenter.start();
+
+        assertFalse(newsPresenter.isNewsLastPage());
     }
 }
