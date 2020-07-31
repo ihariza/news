@@ -26,6 +26,9 @@ public class BaseRouter implements BaseRouterContract {
             boolean fragmentPopped = fragmentManager.popBackStackImmediate(backstateName, 0);
             if (!fragmentPopped) {
                 final FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                if (fragmentTag == null) {
+                    fragmentTag = fragment.getClass().getName();
+                }
                 fragmentTransaction.replace(containerId, fragment, fragmentTag);
                 if (addToBackStack) {
                     fragmentTransaction.addToBackStack(backstateName);
