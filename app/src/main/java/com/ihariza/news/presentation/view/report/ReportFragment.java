@@ -29,7 +29,7 @@ import javax.inject.Inject;
 
 public class ReportFragment extends BaseFragment implements ReportContract.View {
 
-    private static final String REPORT_ID = "report_id";
+    public static final String REPORT_ID = "report_id";
 
     @Inject
     ReportContract.Presenter presenter;

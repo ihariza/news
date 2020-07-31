@@ -164,3 +164,7 @@ subprojects {
     }
   }
 }
+
+// Run sonarqube
+//gradle clean connectedDevDebugAndroidTest testDevDebugUnitTest
+//gradle sonarqube -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/jacoco/testDevDebugUnitTestCoverage/testDevDebugUnitTestCoverage.xml
