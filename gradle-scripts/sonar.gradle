@@ -3,8 +3,8 @@ apply plugin: "org.sonarqube"
 sonarqube {
   properties {
     property "sonar.projectName", "News"
-    property "sonar.projectKey", "$Android.applicationId"
-    property "sonar.projectVersion", "${project.version}"
+    property "sonar.projectKey", "${android.defaultConfig.applicationId}"
+    property "sonar.projectVersion", "${android.defaultConfig.versionCode}"
     property "sonar.sourceEncoding", "UTF-8"
     property "sonar.java.coveragePlugin", "jacoco"
     property "sonar.sources", "src/main/java"
