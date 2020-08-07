@@ -18,6 +18,7 @@ import com.ihariza.news.presentation.view.util.RequestCountingIdlingResource;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -27,6 +28,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
+import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.not;
@@ -62,7 +64,13 @@ public class NewFragmentTest {
     public void whenClickOnItemShouldOpenDetailView() {
         ViewInteraction recyclerView = onView(withId(R.id.recyclerview));
         recyclerView.perform(actionOnItemAtPosition(0, click()));
-        onView(withId(R.id.action_share)).check(matches(isDisplayed()));
+        onView(
+                Matchers.allOf(
+                        withId(R.id.action_share),
+                        withId(R.id.action_share),
+                        isDescendantOfA(withId(R.id.toolbar))
+                )
+        );
     }
 
     @Test
